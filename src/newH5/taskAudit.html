@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+    	<meta name="viewport"
+          	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	    <meta http-equiv="pragma" content="no-cache">
+	    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	    <meta http-equiv="expires" content="0">
+		<link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css" />
+		<script type="text/javascript">
+			(function() {
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+			})()
+
+		</script>
+		<link rel="stylesheet" type="text/css" href="css/taskAudit.css"/>
+	</head>
+
+	<body>
+		<!--task start-->
+		<div class="task-wrap">
+			<div class="rems"></div>
+			<!--step start-->
+			<div class="task-step">
+				<!--logo-->
+				<div class="step-logo">
+
+				</div>
+				<!--name-->
+				<div class="step-name">
+
+				</div>
+				<!--步骤-->
+				<div class="step-cont">
+					<div class="step-cont-title title">
+						任务步骤
+					</div>
+					<ul class="step-cont-list">
+						<!------任务步骤------>
+					</ul>
+				</div>
+			</div>
+			<!--step end-->
+			<!--study start-->
+			<div class="task-study">
+				<!--标题-->
+				<div class="task-study-title title">
+					详细教程
+				</div>
+				<!--图片-->
+				<div class="task-study-list">
+					<ul class="study-list-photo">
+						<!-------任务说明------>
+					</ul>
+				</div>
+				<!--按钮-->
+				<div class="task-study-button">
+					<span class="task-study-btn"></span>
+				</div>
+
+			</div>
+			<!--study end-->
+			<!--photo start-->
+			<div class="task-photo">
+				<!--标题-->
+				<div class="task-photo-title title">上传截图</div>
+				<!--截图-->
+				<ul class="task-photo-list">
+					<!--添加的图片-->
+					
+					<!--相机图标-->
+					<li class="task-photo-list-camera">
+						<img src="images/task-photo-cream.png" />
+						<span class="camera-font">添加图片</span>
+						<input id="pic" type="file" name='pic' accept="image/*" onchange="selectFile()" />
+					</li>
+
+				</ul>
+				<!--按钮-->
+				<div class="task-photo-button">
+					<span class="task-photo-btn">提交审核</span>
+				</div>
+				<!--文字-->
+				<div class="task-photo-font">
+					任务提交后到账需要1～3个工作日
+				</div>
+			</div>
+			<!--photo end-->
+
+		</div>
+		<!--task end-->
+		<!--轮播图-->
+		<div class="swiper-wrap">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<!--轮播的图片-->
+					
+				</div>
+				<!-- 如果需要分页器 -->
+				<div class="swiper-pagination"></div>
+
+			</div>
+		</div>
+		
+	</body>
+	<script src="js/jquery2.02.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="js/ajax.js"></script>
+	<script src="js/swiper-3.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/pinchzoom.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		//获取链接后面的内容
+		var taskShortName;
+		var userId ;
+		var photoSrc=[];
+		var photoHtml = '';
+		var cremaHtml = '<li class="task-photo-list-camera"><img src="images/task-photo-cream.png" /><span class="camera-font">添加图片</span><input id="pic" type="file" name="pic" accept="image/*" onchange="selectFile()" /></li>'
+		var auditImageList,auditLable,taskId,taskStepdeList,imgIco,name,userAuditImageList,taskBtnShow,taskStatus;
+		function setMessage() {
+		    try{
+		        var searchUrl=location.href.split("?")[1].split('&');
+		        searchUrl.forEach(function(item){
+			        if("taskShortName"==item.split('=')[0]){
+			        	taskShortName=item.split('=')[1];
+				    }else if("userId"==item.split('=')[0]){
+				        userId=item.split('=')[1];
+				    }
+		        });
+		    }catch(error){
+		        console.log(error)
+		    }
+		}
+		//第一部分logo
+		function logoLoad() {
+			$('.step-logo')[0].innerHTML = "<img src='" + imgIco + "' />";
+			$('.step-name')[0].innerText=name;
+		}
+		
+		//第二部分步骤
+		function stepLoad() {
+			var stepArr = taskStepdeList;
+			var html = "";
+			for(var i = 0; i < stepArr.length; i++) {
+				html += "<li><span>" + (i + 1) + "</span><span>" + stepArr[i] + "</span></li>"
+			}
+			$('.step-cont-list')[0].innerHTML = html;
+		}
+		
+		//第三部分 任务说明
+		function studyLoad() {
+			var studyArr = auditImageList;
+			var studyHtml, swiperHtml;
+			for(var i = 0; i < studyArr.length; i++) {
+				studyHtml += "<li class='study-photo'><a><img src='" + studyArr[i] + "' /></a><span><em>" + (i + 1) + "</em><em>/" + studyArr.length + "</em></span></li>";
+				swiperHtml +="<div class='swiper-slide'><img src='"+studyArr[i]+"'/></div>";				
+			}
+			$(".study-list-photo")[0].innerHTML = studyHtml;
+			$(".swiper-wrapper")[0].innerHTML = swiperHtml;
+
+		
+		}
+		
+		//第四部分 截图上传
+		//添加图片
+		
+		
+		//var files = document.getElementById('pic').files;
+		var form = new FormData(); //通过HTML表单创建FormData对象
+		//      var url = '127.0.0.1:8080/'
+		function selectFile() {
+			var files = document.getElementById('pic').files;
+			if(files.length == 0) {
+				return;
+			}
+			var file = files[0];
+			var size = file.size/1024;
+			if (size<2048) {
+				//把上传的图片显示出来
+				var reader = new FileReader();
+				// 将文件以Data URL形式进行读入页面
+				reader.readAsBinaryString(file);
+				reader.onload = function(f) {
+					//			var result = document.getElementById("result");
+					var src = "data:" + file.type + ";base64," + window.btoa(this.result);
+					photoSrc.push(src);
+					var len = photoSrc.length;
+					photoHtml += '<li class="task-photo-list-photo"><img src ="' + photoSrc[len-1] + '"/><img class="task-photo-x" src="images/task-photo-x.png" /></li>';
+					$(".task-photo-list")[0].innerHTML = photoHtml + cremaHtml;
+					//上传的截图个数
+					$(".camera-font").text(len + "/" + (len + 1))
+					//判断提交任务的颜色
+					if(len > 0) {
+						$(".task-photo-btn").css("background", "linear-gradient(90deg, #917EFD 0%, #5D47FF)");
+					}
+					//思路：拿到数组，然后关联click事件
+					//点击删除
+					
+					var taskArr = $(".task-photo-x");
+					for (var i = 0; i < taskArr.length; i++) {
+						var task = taskArr[i];
+					    task.index = i;//给每个className为child的元素添加index属性;
+					    task.onclick = function () {
+					    	$(this).parent().remove();
+//					    	 alert(this.index)//弹出下标
+					    	 var index = this.index;
+							if (photoSrc.length>1) {
+								photoSrc.splice(index,1);
+							} else {
+								photoSrc=[];
+							}
+					    	var len = photoSrc.length;
+							photoHtml="";
+							for (var i = 0; i < photoSrc.length; i++) {
+								
+								photoHtml += '<li class="task-photo-list-photo"><img src ="' + photoSrc[i] + '"/><img class="task-photo-x" src="images/task-photo-x.png" /></li>';	
+							}
+							//上传的截图个数
+							$(".camera-font").text (len + "/" + (len + 1))
+							//判断提交任务的颜色
+							if(len > 0) {
+								$(".task-photo-btn").css("background", "linear-gradient(90deg, #917EFD 0%, #5D47FF)");
+							}else{
+								$(".task-photo-btn").css("background", "#B4BBCF");
+								$('.camera-font').text("添加图片")
+							}  
+					    }
+					}	
+				}
+			} else{
+				$(".task-photo-btn").css("background", "#DF5555");
+				$('.task-photo-btn').text("图片过大，建议上传截图");
+				setTimeout(function () {
+					console.log(photoSrc.length)
+					if (photoSrc.length>0) {
+						$(".task-photo-btn").css("background", "linear-gradient(90deg, #917EFD 0%, #5D47FF)");
+					} else{
+						$(".task-photo-btn").css("background", "#B4BBCF");
+					}
+					$('.task-photo-btn').text("提交审核");
+				},2500);
+			}
+		}
+		//获取详细信息
+		function getDetail () {
+		    setMessage();
+		    ajax({
+		        url:'taskAudit/detail',
+		        type: "POST",
+		        data:{
+		            'taskShortName':taskShortName,
+		            'userId':userId
+		        },
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            console.log(res.data);
+		            if(res.status==0&&res.data){
+		//          	console.log(res.data)
+		            	//logo
+		            	
+		            	imgIco = res.data.imgIco;
+		            	//name
+		            	name =res.data.name;
+		            	logoLoad();
+		            	
+		            	//详细教程及图片轮播
+		                auditImageList = res.data.auditImageList;
+		                //详细教程
+		                studyLoad();
+		                //图片轮播
+		                swiperLoad ();
+		                //到账时间
+		                auditLable=res.data.auditLable;
+		                $(".task-photo-font")[0].innerText=auditLable;
+		                //任务id
+		                taskId=res.data.taskId;
+		                //开始按钮字段
+		                taskBtnShow = res.data.taskBtnShow;
+		                $('.task-study-btn')[0].innerText=taskBtnShow;
+		                //任务步骤
+		                taskStepdeList=res.data.taskStepdeList;
+		            	stepLoad();
+		            	//用户状态
+		            	taskStatus=res.data.taskStatus;
+		            	//用户上传的图片列表
+		            	userAuditImageList=res.data.userAuditImageList;
+		            	var imgLen = userAuditImageList.length;
+		            	var userListHtml;
+		            	console.log(imgLen)
+		            	if (imgLen>0) {
+		            		$(".task-photo-btn").css("background", "#B4BBCF");
+		            		for (var i = 0; i < userAuditImageList.length; i++) {
+						
+								userListHtml += '<li class="task-photo-list-photo"><img src ="' + userAuditImageList[i] + '"/></li>';	
+							}
+		            		$(".task-photo-list")[0].innerHTML = userListHtml;
+		            		$('.task-photo-btn').text("上传成功");
+		            	}else if(imgLen==0 && (taskStatus==10 || taskStatus==21)){
+		            		//点击提交图片
+							var taskClick = $('.task-photo-btn').on("click",function () {
+								$(".task-photo-btn").css("background", "#B4BBCF");
+								if (photoSrc.length>0) {
+									upPhotoLoad();
+								}
+							})
+							
+		            	}
+		            }
+		        }
+		    })	
+		}
+		//上传图片
+		function upPhotoLoad () {
+			//截取url
+		    setMessage();
+		    //提交状态
+		    $('.task-photo-btn').text("上传中");
+		    ajax({
+		        url:'taskAudit/uploadImages',
+		        type: "POST",
+		        data:{
+		            'auditImagesList':photoSrc,
+		            'taskShortName':taskShortName,
+		            'userId':userId
+		        },
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            if(res.status==0){
+		                setTimeout(function () {
+					    	$('.task-photo-btn').text("上传成功");
+					    	$(".task-photo-btn").unbind("click");
+					    	$(".task-photo-x").remove();
+					    },20)
+		            }
+		        }
+		    })	
+		}
+		//图片轮播相关
+		function swiperLoad () {
+			//清除轮播
+			$('.swiper-wrap').click(function() {
+				$('.swiper-wrap').hide();
+				$(".task-wrap").show();
+			})
+			//点击教程触发轮播
+			$(".study-photo").click(function() {
+				$('.swiper-wrap').show();
+				$(".task-wrap").hide();
+				//轮播图
+				var mySwiper = new Swiper('.swiper-container', {
+					direction: 'horizontal',
+					touchRatio: 1,
+					// 如果需要分页器
+					pagination: '.swiper-pagination',
+					paginationType: 'fraction',
+			
+				})
+			})
+			
+		}
+		//调用安卓，ios去进行跳转
+		$(".task-study-btn").click(function () {
+			var u = navigator.userAgent;
+		    var isAndroid = u.indexOf('Android') > -1 ;
+		    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+		    if(isAndroid){
+		    	window.AndroidWebView.taskJumpUrl();
+		    }
+		    if(isiOS){
+//		        window.taskJumpUrl();
+//		        window.webkit.messageHandlers.luckUrl.postMessage({name:"luckUrl"});
+				window.webkit.messageHandlers.taskJumpUrl.postMessage({name:"taskJumpUrl"});
+		    }
+		})
+		//计算rem  (兼容识别rem不准问题)
+		function remAgain() {
+			var width = window.innerWidth / 375 * 100;
+			document.documentElement.style.fontSize = width + "px";
+			var rems = document.getElementsByClassName("rems")[0];
+			if(rems.clientWidth != width && window.innerWidth != 0) {
+				document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+			}
+		}
+		
+		//html加载结束时加载
+		$(document).ready(function(){
+			
+			getDetail();
+			
+			
+		})
+		window.onload=function () {
+			setTimeout(function() {
+				
+				remAgain()
+			});
+		}
+	</script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>工伤保险计算器</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result h2{
+            font-size: 0.36rem;
+            line-height: 0.5rem;
+        }
+        .computed{
+            margin-top: 0.64rem;
+        }
+        .submitBtnS{
+            margin-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <p>工商保险金额（元）</p>
+            <h2 class="allPrice">0.00</h2>
+        </div>
+    </div>
+    <div class="computed">
+        <div class="list">
+            <span>月工资</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="9" type="text">
+            <span class="unit">元</span>
+        </div>
+        <div class="list">
+            <span>本市上年月平均工资</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="9" type="text">
+            <span class="unit">元</span>
+        </div>
+        <div class="list last">
+            <span>单位缴存比例</span>
+            <input class="priceInput" placeholder="请输入比例"  maxlength="9" type="text">
+            <span class="unit">%</span>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var allPrice = getClassName("allPrice")[0],
+        priceInput0 = getClassName("priceInput")[0],
+        priceInput1 = getClassName("priceInput")[1],
+        priceInput2 = getClassName("priceInput")[2];
+    function rule() {
+        var priceValue0=parseFloat(priceInput0.value),priceValue1=parseFloat(priceInput1.value),priceValue2=parseFloat(priceInput2.value);
+        if(priceValue0>priceValue1*3){
+            priceValue0=priceValue1*3
+        }
+        if(priceValue0<priceValue1*0.6){
+            priceValue0=priceValue1*0.6
+        }
+        allPrice.innerText = Format(priceValue0*priceValue2*0.01)
+    }
+    function reset() {
+        allPrice.innerText="0.00";
+        priceInput0.value="";
+        priceInput1.value="";
+        priceInput2.value="";
+    }
+    function submitMes(type) {
+        if(type=="submit"){
+            if(!CheckElem(priceInput0,"月工资")) return false;
+            if(!CheckElem(priceInput1,"本市上年月平均工资")) return false;
+            if(!CheckElem(priceInput2,"单位缴存比例")) return false;
+            rule();
+        }else {
+            reset();
+        }
+    }
+</script>
+</body>
+</html>

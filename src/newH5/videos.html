@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        html,body,div,ul,li,p,h3{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        button{
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            border:0;
+            outline:none;
+        }
+        .videos-page{
+            font-size: 0.12rem;
+            height: 100%;
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+        .videos-page-content{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        #title{
+            padding: 0.12rem 0.12rem 0 0.12rem;
+            font-size: 0.16rem;
+            text-indent:0.32rem;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .videos-page-img{
+            flex: 1;
+            position: relative;
+        }
+        .videos-page-img-content{
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            box-sizing: border-box;
+            padding:0 0.12rem;
+        }
+        #videoImg{
+            width: 100%;
+        }
+        .videos-page-img-Btn{
+            width: 0.58rem;
+            height: 0.58rem;
+            background: url("./images/videoBtn.png") no-repeat center;
+            background-size: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .down-app{
+            box-sizing: border-box;
+            height: 0.5rem;
+            background: rgba(0,0,0,.5);
+            display: flex;
+            padding: 0.1rem 0.16rem;
+        }
+        .down-app img{
+            width: 0.3rem;
+            height: 0.3rem;
+        }
+        .down-app-text{
+            flex:1;
+            color: #fff;
+            margin-left: 0.09rem;
+        }
+        .down-app-text p{
+            line-height: 1;
+        }
+        .down-app-text p:nth-of-type(1){
+            font-size: 0.12rem;
+            line-height: 0.17rem;
+        }
+        .down-app-text p:nth-of-type(2){
+            font-size: 0.1rem;
+            line-height: 0.13rem;
+        }
+        .down-app-btn{
+            width: 0.6rem;
+            height: 0.3rem;
+            background: url("./images/downBtn.png") no-repeat 0 0;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="videos-page">
+        <div class="rems"></div>
+        <div class="videos-page-content">
+            <h3 id="title"></h3>
+            <div class="videos-page-img">
+               <div class="videos-page-img-content" >
+                   <img id="videoImg">
+                   <div class="videos-page-img-Btn"></div>
+               </div>
+            </div>
+            <div class="down-app">
+                <img src="./images/logo.png">
+                <div class="down-app-text">
+                    <p>薪动</p>
+                    <p>聚是一团火 散是满天薪</p>
+                </div>
+                <button class="down-app-btn"></button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/ajax.js"></script>
+    <script>
+        var titleVideo=document.getElementById("title"),
+            videoImg=document.getElementById("videoImg");
+        var userId,id,url;
+        function loadTitle(title){
+            if(title){
+                titleVideo.innerText=title;
+                document.title = title;
+                if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+                    var i = document.createElement('iframe');
+                    i.style.display = 'none';
+                    i.onload = function() {
+                        setTimeout(function(){
+                            i.remove();
+                        }, 9)
+                    }
+                    document.body.appendChild(i);
+                }
+            }
+        }
+        function setMessage() {
+            try{
+                var searchUrl=location.href.split("?")[1].split('&');
+                searchUrl.forEach((item)=>{
+                    if("id"==item.split('=')[0]){
+                        id=item.split('=')[1];
+                        console.log(id);
+                    }else if("userId"==item.split('=')[0]){
+                        userId=item.split('=')[1];
+                    }
+                });
+            }catch(error){
+                console.log(error)
+            }
+        }
+        function loadData() {
+            setMessage();
+            ajax({
+                url:'amusemg/detail?type=2&id='+id,
+                type: "POST",
+                data:{},
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    if(res.status==0&&res.data){
+                        loadTitle(res.data.title);
+                        videoImg.src=res.data.vpicSmall;
+                        url=res.data.vsourceUrl;
+                    }
+                }
+            })
+        }
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+        document.getElementsByClassName("down-app")[0].onclick=function() {
+             location.href="https://llpt-bos.ballpie.com/newH5/reg.html?id="+userId
+//            location.href="https://test-agent.ballpie.com/newH5/reg.html?id="+userId
+        }
+        document.getElementsByClassName("videos-page-img-content")[0].onclick= function() {
+            location.href= url
+        }
+        window.onload=function () {
+            setTimeout(function () {
+                remAgain()
+            });
+            loadData()
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>薪动</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style type="text/css">
+        html,body,div,ul,li,p ,img{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+            font-size: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        .invite{
+            font-size: 0.12rem;
+            position: relative;
+            background: #6349EB;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+        .invite-notice{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 0.07rem 0.16rem 0.07rem 0.44rem;
+            background: #765AE3;
+            font-size: 0;
+        }
+        .invite-notice .invite-notice-img{
+            position: absolute;
+            top: 0.07rem;
+            left: 0.16rem;
+        }
+        .invite-notice-img img{
+            width: 0.2rem;
+            height: 0.2rem;
+        }
+        .invite-notice .part2{
+            font-size: 0.14rem;
+            color: #FED81E;
+            height: 0.2rem;
+            overflow: hidden;
+        }
+        .invite-up{
+            background: url("./images/invite.png") no-repeat 0 0;
+            background-size: cover;
+        }
+        .invite-down{
+            background: #6349EB;
+            padding-bottom: 0.7rem;
+        }
+        .invite-div{
+            height: 4.2rem;
+        }
+        .invite-button{
+            display: block;
+            border: 0;
+            outline: none;
+            width: 2.1rem;
+            height: 0.5rem;
+            margin: 0 auto 0.24rem;
+            background: url("./images/inviteBtn.png") no-repeat center;
+            background-size: cover;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        .title{
+            line-height: 1;
+            text-align: center;
+            padding-bottom: 0.14rem;
+            color: #fff;
+            font-size: 0;
+        }
+        .title img{
+            width: 0.12rem;
+            height: 0.12rem;
+            vertical-align: top;
+        }
+        .title span{
+            font-size: 0.12rem;
+            display: inline-block;
+            line-height: 1;
+            margin: 0 0.05rem;
+        }
+        .invite-list{
+            width: 3.25rem;
+            min-height: 0.75rem;
+            margin: 0 auto 0.16rem;
+            background: #5A39E9;
+            box-shadow: inset 0 0.01rem 0.03rem 0 #3F24B8;
+            border-radius: 0.08rem;
+        }
+        .invite-list .invite-head{
+            box-sizing: border-box;
+            display: flex;
+            width: 100%;
+            height: 0.75rem;
+            padding: 0.09rem 0 0.12rem 0;
+            color: #fff;
+        }
+        .invite-head div{
+            flex: 1;
+            text-align: center;
+        }
+        .invite-head-one{
+            font-size: 0.2rem;
+            line-height: 0.28rem;
+            margin-bottom: 0.04rem;
+        }
+        .invite-head-two{
+            font-size: 0.14rem;
+            line-height: 0.20rem;
+        }
+        .invite-head-left p:nth-of-type(1){
+            color: #FCD21D;
+        }
+        .invite-head-right{
+            position: relative;
+        }
+        .invite-head-zuo{
+            width: 0.04rem;
+            height: 0.08rem;
+            position: absolute;
+            right: 0.3rem;
+            bottom: 0.16rem;
+        }
+        .invite-head-xia{
+            display: none;
+            width: 0.08rem;
+            height: 0.04rem;
+            position: absolute;
+            right: 0.3rem;
+            bottom: 0.19rem;
+        }
+        .invite-body{
+            display: none;
+        }
+        .invite-body li{
+            display: flex;
+            color: #fff;
+            padding-bottom: 0.16rem;
+        }
+        .invite-body-left{
+            width: 1.12rem;
+            text-align: right;
+        }
+        .invite-body-mid{
+            flex: 1;
+            text-align: center;
+        }
+        .invite-body-right{
+            width: 0.72rem;
+            text-align: left;
+            color: #FCD819;
+        }
+        .invite-explain{
+            width: 3.25rem;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0.02rem 0.04rem 0 #270CB4;
+            border-radius: 0.08rem;
+            padding: 0.22rem 0 0.20rem 0.16rem;
+        }
+        .invite-explain p+p{
+            margin-top: 0.1rem;
+        }
+        .invite-explain-blue{
+            color: #6349EB;
+        }
+        .invite-explain-gray{
+            color: #B4BBCF
+        }
+    </style>
+</head>
+<body>
+    <div class="invite">
+        <div class="rems"></div>
+        <div class="invite-notice">
+            <div class="invite-notice-img">
+                <img src="./images/notice.png">
+            </div>
+            <div class="part2">
+                <div id="scroll1">
+                    <ul>
+                        <li>132****3245得邀友返利130钱币</li>
+                        <li>133****4231得邀友返利50钱币</li>
+                        <li>183****6745得邀友返利30钱币</li>
+                        <li>195****8532得邀友返利160钱币</li>
+                        <li>142****5346得邀友返利80钱币</li>
+                        <li>137****9632得邀友返利130钱币</li>
+                        <li>182****2343得邀友返利150钱币</li>
+                        <li>135****1342得邀友返利50钱币</li>
+                        <li>137****8423得邀友返利100钱币</li>
+                        <li>172****4364得邀友返利80钱币</li>
+                        <li>163****3245得邀友返利60钱币</li>
+                        <li>183****4231得邀友返利40钱币</li>
+                        <li>133****6745得邀友返利80钱币</li>
+                        <li>175****8532得邀友返利110钱币</li>
+                        <li>162****5346得邀友返利100钱币</li>
+                        <li>147****9632得邀友返利60钱币</li>
+                        <li>182****2343得邀友返利80钱币</li>
+                        <li>135****1342得邀友返利30钱币</li>
+                        <li>177****8423得邀友返利80钱币</li>
+                        <li>172****4364得邀友返利180钱币</li>
+                    </ul>
+                </div>
+                <div id="scroll2"></div>
+            </div>
+        </div>
+        <div class="invite-up">
+            <div class="invite-div"></div>
+            <button class="invite-button" onclick="share()"></button>
+            <div class="title">
+                <img src="./images/title.png">
+                <span>我的邀请战绩</span>
+                <img src="./images/title.png">
+            </div>
+        </div>
+        <div class="invite-down">
+            <div class="invite-list">
+                <div class="invite-head">
+                    <div class="invite-head-left">
+                        <p class="invite-head-one">0</p>
+                        <p class="invite-head-two">累计获取钱币</p>
+                    </div>
+                    <div class="invite-head-right" onclick="showList()">
+                        <p class="invite-head-one">0</p>
+                        <p class="invite-head-two">邀友记录</p>
+                        <img class="invite-head-zuo" src="./images/zuo.png">
+                        <img class="invite-head-xia" src="./images/xia.png">
+                    </div>
+                </div>
+                <ul class="invite-body"></ul>
+            </div>
+            <div class="title">
+                <img src="./images/title.png">
+                <span>邀请规则</span>
+                <img src="./images/title.png">
+            </div>
+            <div class="invite-explain">
+                <p class="invite-explain-blue">收益一：直接邀请的好友获得的钱币 x 10%</p>
+                <p class="invite-explain-blue">收益二：直接邀请好友的好友获得的钱币 x 2%</p>
+                <p class="invite-explain-gray">举个例子：</p>
+                <p class="invite-explain-gray">1、直接邀请的好友有10个人，每个人每天获得1000钱币；</p>
+                <p class="invite-explain-gray">2、好友共邀请了100个人，每个人每天获得1000钱币；</p>
+                <p class="invite-explain-gray">则每天可获钱币：</p>
+                <p class="invite-explain-gray">10 x 1000 x 10% +100 x 1000 x2% = 3000钱币</p>
+                <p class="invite-explain-gray">一月可获得90000钱币，约合900元人民币</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/crypto-new.js"></script>
+    <script type="text/javascript" src="./js/ajax.js"></script>
+    <script type="text/javascript">
+        var show=false,items={};
+        var inviteBody = document.getElementsByClassName('invite-body')[0],
+            inviteHeadOne = document.getElementsByClassName('invite-head-one'),
+            inviteHeadZuo = document.getElementsByClassName('invite-head-zuo')[0],
+            inviteHeadXia = document.getElementsByClassName('invite-head-xia')[0],
+            PartArea = document.getElementsByClassName('part2')[0],
+            Scroll1 = document.getElementById('scroll1'),
+            Scroll2 = document.getElementById('scroll2');
+        Scroll2.innerHTML = Scroll1.innerHTML;
+        function share() {
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 ;
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            var sUrl=location.origin+"/newH5/reg.html"+location.search;
+//          console.log(sUrl);
+            if(isAndroid){
+                window.AndroidWebView.shareUrl(sUrl)
+            }
+            if(isiOS){
+//              window.shareUrl(sUrl);
+                window.webkit.messageHandlers.shareUrl.postMessage({name:"shareUrl",url:sUrl});
+            }
+        }
+
+        function showList() {
+            inviteBody.style.display =  !show ? "block" : "none";
+            inviteHeadZuo.style.display =  show ? "block" : "none";
+            inviteHeadXia.style.display =  !show ? "block" : "none";
+            show = !show;
+        }
+        function roll() {
+            if(Scroll2.offsetHeight - PartArea.scrollTop <= 0) {
+                PartArea.scrollTop -= Scroll1.offsetHeight;
+            } else {
+                PartArea.scrollTop = PartArea.scrollTop +1;
+            }
+        }
+        //解析id
+        function getMesData() {
+            var baseMes=location.href.split("?platformPara=")[1].split('&')[0];
+            try{
+                if(baseMes){
+                    baseMes = baseMes.replace('!', '/').replace('*', '+');
+                    baseMes = Base64.decode(baseMes);
+                    if(baseMes != null && baseMes != "undefined") {
+                        if(baseMes.indexOf('inviter')>0){
+                            items = JSON.parse(baseMes.toString());
+                        }else{
+                            var bytes  = CryptoJS.AES.decrypt(baseMes.toString(), 'secret key 123');
+                            items = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                        }
+                    }
+                    if(items.inviter){
+                        loadData()
+                    }
+                }
+            }catch(err) {
+                console.log(err)
+            }
+        }
+        function loadData() {
+            ajax({
+                    url:'user/invitedUsers?userId='+items.inviter,
+                    type: "POST",
+                    data:{},
+                    dataType: "json",
+                    success:function (response) {
+                        var res=JSON.parse(response);
+                        if(res.status == 0) {
+                            inviteHeadOne[0].innerText=res.data.coinSum;
+                            inviteHeadOne[1].innerText=res.data.count;
+                            var htmlString='',users=res.data.users;
+                            if(users){
+                                for(var i=0;i<users.length;i++){
+                                    htmlString +="<li><div class='invite-body-left'>"+users[i]['createTime']+
+                                        "</div><div class='invite-body-mid'>"+users[i]['nickname']+
+                                        "</div><div class='invite-body-right'>"+users[i]['coinAward']+
+                                        "金币</div></li>"
+                                }
+                                inviteBody.innerHTML=htmlString;
+                            }
+                        }
+                    }
+                })
+        }
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+        window.onload=function () {
+            setTimeout(function () {
+                remAgain()
+            });
+            setInterval(roll, 50);
+            getMesData();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="referrer" content="no-referrer"><!--解决图片加载失败-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
+    <style>
+        html,body,div,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        button{
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            border:0;
+            outline:none;
+        }
+        .beauty-page{
+            font-size: 0.12rem;
+            height: 100%;
+            background: rgba(0,0,0,.8);
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+        .beauty-page .swiper-container{
+            height: 100%;
+        }
+        .swiper-pagination-fraction{
+            font-size: 0.16rem;
+            width: auto;
+            bottom:1rem;
+            left: auto;
+            right: 0.14rem;
+            color: #fff;
+            padding: 0.06rem 0.12rem;
+            border-radius: 0.18rem;
+            background: rgba(0,0,0,.58);
+        }
+        .down-app{
+            z-index: 9999;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0.5rem;
+            background: rgba(0,0,0,.5);
+            display: flex;
+            padding: 0.1rem 0.16rem;
+        }
+        .down-app img{
+            width: 0.3rem;
+            height: 0.3rem;
+        }
+        .down-app-text{
+            flex:1;
+            color: #fff;
+            margin-left: 0.09rem;
+        }
+        .down-app-text p{
+            line-height: 1;
+        }
+        .down-app-text p:nth-of-type(1){
+            font-size: 12px;
+            line-height: 0.17rem;
+        }
+        .down-app-text p:nth-of-type(2){
+            font-size: 10px;
+            line-height: 0.13rem;
+        }
+        .down-app-btn{
+            width: 0.6rem;
+            height: 0.3rem;
+            background: url("./images/downBtn.png") no-repeat 0 0;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="beauty-page">
+        <div class="rems"></div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="down-app" onclick="regBtn()">
+            <img src="./images/logo.png">
+            <div class="down-app-text">
+                <p>薪动</p>
+                <p>聚是一团火 散是满天薪</p>
+            </div>
+            <button class="down-app-btn"></button>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <script type="text/javascript" src="./js/ajax.js"></script>
+    <script src="./js/pinchzoom.js"></script>
+    <script>
+        var swipWrapper = document.getElementsByClassName('swiper-wrapper')[0],
+            id,userId;
+        function loadTitle(title){
+            if(title){
+                document.title = title;
+                if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+                    var i = document.createElement('iframe');
+                    i.style.display = 'none';
+                    i.onload = function() {
+                        setTimeout(function(){
+                            i.remove();
+                        }, 9)
+                    }
+                    document.body.appendChild(i);
+                }
+            }
+        }
+        function setMessage() {
+            try{
+                var searchUrl=location.href.split("?")[1].split('&');
+                searchUrl.forEach((item)=>{
+                    if("id"==item.split('=')[0]){
+                        id=item.split('=')[1];
+                    }else if("userId"==item.split('=')[0]){
+                        userId=item.split('=')[1];
+                    }else if("title"==item.split('=')[0]){
+                        title=item.split('=')[1];
+                    }
+                });
+
+            }catch(error){
+                console.log(error)
+            }
+        }
+        function newSwiper() {
+            var mySwiper = new Swiper('.swiper-container', {
+                lazy: {
+                    loadPrevNext: true,
+                    loadPrevNextAmount: 1,
+                },
+                on:{
+                    lazyImageReady: function(slideEl, imageEl){
+                        var winRatio=window.innerWidth/window.innerHeight,
+                            imgRatio=imageEl.width/imageEl.height;
+                        if(imgRatio>=winRatio){
+                            imageEl.style.width="100%";
+                            imageEl.style.verticalAlign="middle";
+                            slideEl.style.lineHeight=window.innerHeight/100+"rem";
+                        }else {
+                            imageEl.style.height="100%";
+                            slideEl.style.textAlign="center";
+                        }
+                    }
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    type:'fraction'
+                },
+            });
+            $('div.swiper-slide-scale').each(function () {
+                new RTP.PinchZoom($(this), {});
+            });
+        }
+        function loadData() {
+            setMessage();
+            ajax({
+                url:'amusemg/detail?type=1&id='+id,
+                type: "POST",
+                data:{},
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    if(res.status==0&&res.data){
+                        loadTitle(res.data.title);
+                        var imgList= res.data.imgList,htmlStr='';
+                        for (var i=0;i<imgList.length;i++){
+                            htmlStr+="<div class='swiper-slide'><div class='swiper-slide-scale'> <img data-src='" + imgList[i] +
+                                "' class='swiper-lazy'><div class='swiper-lazy-preloader'></div></div></div>"
+                        }
+                        swipWrapper.innerHTML=htmlStr;
+                        newSwiper();
+                    }
+                }
+            })
+        }
+        function regBtn() {
+            // location.href="https://llpt-bos.ballpie.com/newH5/reg.html?id="+userId
+            location.href="https://llpt-bos.ballpie.com/newH5/reg.html?id="+userId
+        }
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+        window.onload=function () {
+            setTimeout(function () {
+                remAgain()
+            });
+            loadData();
+        }
+    </script>
+</body>
+</html>

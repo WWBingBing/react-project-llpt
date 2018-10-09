@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>存款计算器</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result h2{
+            font-size: 0.36rem;
+            line-height: 0.5rem;
+        }
+        .computed{
+            margin-top: 0.64rem;
+        }
+        .submitBtnS{
+            margin-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <p>到期本息总额（元）</p>
+            <h2 class="allPrice">0.00</h2>
+        </div>
+    </div>
+    <div class="computed">
+        <div class="list">
+            <span>储蓄存期</span>
+            <div class="selectOuter">
+                <div class="selectDiv">三个月</div>
+                <select class="selectOptions" onchange="change(this)">
+                    <option value="3">三个月</option>
+                    <option value="6">半年</option>
+                    <option value="12">一年</option>
+                    <option value="24">两年</option>
+                    <option value="36">三年</option>
+                </select>
+            </div>
+            <span class="unit"> > </span>
+        </div>
+        <div class="list">
+            <span>年利率</span>
+            <input class="selectInput" maxlength="7" type="text" value="1.10">
+            <span class="unit">%</span>
+        </div>
+        <div class="list last">
+            <span>初期存入金额</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="9" type="text">
+            <span class="unit">元</span>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var rateObj={
+        "3":'1.10',
+        "6":"1.30",
+        "12":"1.50",
+        "24":'2.10',
+        "36":"2.75",
+    },priceS,
+        allPrice=document.getElementsByClassName("allPrice")[0],
+        selectOptions=document.getElementsByClassName("selectOptions")[0],
+        selectInput=document.getElementsByClassName("selectInput")[0],
+        priceInput=document.getElementsByClassName("priceInput")[0],
+        selectDiv=document.getElementsByClassName("selectDiv")[0];
+    function resetForm() {
+        selectOptions.selectedIndex=0;
+        selectDiv.innerHTML="三个月";
+        selectInput.value="1.10";
+        priceInput.value="";
+        allPrice.innerHTML="0.00";
+    }
+    function change(e){
+        let selected=e[e.selectedIndex],rate=rateObj[e.value];
+        selectInput.value=rate;
+        selectDiv.innerHTML=selected.innerHTML;
+    }
+    function submitMes(type) {
+        if(type=='submit'){
+            if(!CheckElem(selectInput,"年利率")) return false;
+            if(!CheckElem(priceInput,"初期存入金额")) return false;
+            priceS= parseFloat(priceInput.value)*(parseFloat(selectOptions.value)/12*parseFloat(selectInput.value)*0.01+1);
+            allPrice.innerHTML=Format(priceS);
+        }else{
+            resetForm()
+        }
+    }
+</script>
+</body>
+</html>

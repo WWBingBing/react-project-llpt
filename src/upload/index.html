@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <style>
+        body,html,h1,div,p{
+            padding: 0;
+            margin: 0;
+        }
+        body,html,.uploadPage{
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        .uploadPage{
+            background: url("./bg.jpg") no-repeat center;
+            background-size: cover;
+            position: relative;
+            font-size: 0;
+        }
+        .uploadContent{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+        }
+        .uploadLogo{
+            width: 0.66rem;
+            height: 0.66rem;
+            border-radius: 0.15rem;
+        }
+        .uploadTitle{
+            font-size: 0.24rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0.24rem 0 0.42rem;
+            line-height: 1;
+            position: relative;
+            white-space: nowrap
+        }
+        .errorMes{
+            position: absolute;
+            font-size: 0.12rem;
+            height: 0.3rem;
+            top: 0.3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            line-height: 0.3rem;
+            font-weight: normal;
+            background: #fff1f0;
+            color: #e4393c;
+            border-radius: 0.04rem;
+            padding: 0 0.2rem;
+            opacity:0;
+            white-space: nowrap;
+        }
+        .uploadForm{
+            width: 2.05rem;
+            height: 0.26rem;
+            border-radius: 0.04rem;
+            line-height: 0.26rem;
+            background: #fff;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        .uploadSelect{
+            border: 0;
+            box-sizing: border-box;
+            padding-left: 0.1rem;
+            color: #B1B1B1;
+            font-size: 12px;
+            text-align: left;
+        }
+        .uploadFile{
+            box-sizing: border-box;
+            margin: 0.18rem auto 0.1rem;
+            padding-left: 0.1rem;
+            color: #B1B1B1;
+            text-align: left;
+            position: relative;
+        }
+        .uploadFile input{
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .uploadFile span{
+            font-size: 0.1rem;
+        }
+        .uploadMes{
+            width: 2.05rem;
+            margin: 0 auto;
+            font-size: 0.11rem;
+            color: #fff;
+            text-align: left;
+        }
+        .uploading{
+            width: 2.05rem;
+            margin: 0 auto;
+            color: #fff;
+            text-align: left;
+            display: none;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .uploading p{
+            display: inline-block;
+            padding-left: 0.06rem;
+            font-size: 0.11rem;
+            vertical-align: top;
+        }
+        .uploadSub{
+            background-image: url("./line.png");
+            background-repeat: repeat-y;
+            background-size: 100%;
+            font-size: 0.14rem;
+            margin-top: 0.2rem;
+            color: #fff;
+        }
+        .uploadFooter{
+            font-size: 0.14rem;
+            color: #fff;
+            position: absolute;
+            left: 50%;
+            bottom: 0.2rem;
+            transform: translateX(-50%);
+            white-space: nowrap
+        }
+        /*loading 样式
+        */
+        .loadEffect{
+            display: inline-block;
+            position: relative;
+            width: 0.14rem;
+            height: 0.14rem;
+        }
+        .loadEffect span{
+            display: inline-block;
+            width: 0.02rem;
+            height: 0.02rem;
+            border-radius: 50%;
+            background: #ccc;
+            position: absolute;
+            -webkit-animation: load 1.04s ease infinite;
+        }
+        @-webkit-keyframes load{
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.2;
+            }
+        }
+        .loadEffect span:nth-child(1){
+            left: 0;
+            top: 50%;
+            margin-top: -0.01rem;
+            -webkit-animation-delay:0.13s;
+        }
+        .loadEffect span:nth-child(2){
+            left: 0.02rem;
+            top: 0.02rem;
+            -webkit-animation-delay:0.26s;
+        }
+        .loadEffect span:nth-child(3){
+            left: 50%;
+            top: 0;
+            margin-left: -0.01rem;
+            -webkit-animation-delay:0.39s;
+        }
+        .loadEffect span:nth-child(4){
+            right: 0.02rem;
+            top: 0.02rem;
+            -webkit-animation-delay:0.52s;
+        }
+        .loadEffect span:nth-child(5){
+            right: 0;
+            top: 50%;
+            margin-top: -0.01rem;
+            -webkit-animation-delay:0.65s;
+        }
+        .loadEffect span:nth-child(6){
+            right: 0.02rem;
+            bottom: 0.02rem;
+            -webkit-animation-delay:0.78s;
+        }
+        .loadEffect span:nth-child(7){
+            bottom: 0;
+            left: 50%;
+            margin-left: -0.01rem;
+            -webkit-animation-delay:0.91s;
+        }
+        .loadEffect span:nth-child(8){
+            left: 0.02rem;
+            bottom: 0.02rem;
+            -webkit-animation-delay:1.04s;
+        }
+    </style>
+    <script>
+        (function () {
+            var windowWidth = window.innerWidth<1281?1280:window.innerWidth;
+            var scale=window.innerWidth<1281?160:140;
+            var width = windowWidth/1920*scale;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+</head>
+<body>
+<div class="uploadPage">
+    <div class="uploadContent">
+        <img class="uploadLogo" src="./logo.png"/>
+        <div class="uploadTitle">
+            <div class="errorMes"></div>
+            薪动流量平台数据上传
+        </div>
+        <div class="uploadSelect uploadForm"></div>
+        <div class="uploadForm uploadFile" onClick="uploadText()">
+            <input type="file" id="upload">
+            <span>点击上传文件</span>
+        </div>
+        <p class="uploadMes">仅支持text文件格式，最大10M</p>
+        <div class="uploading">
+            <div class="loadEffect">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <p class="uploadName"></p>
+        </div>
+        <div class="uploadForm uploadSub" onClick="uploadBtn()">上传</div>
+    </div>
+    <div class="uploadFooter">杭州栎树网络科技有限公司 &copy;2018</div>
+</div>
+<script type="text/javascript" src="base64.min.js"></script>
+<script type="text/javascript">
+    function ajax(options) {
+        options = options || {};
+        options.type = (options.type || "GET").toUpperCase();
+        options.dataType = options.dataType || "json";
+        //创建 - 非IE6 - 第一步
+        if (window.XMLHttpRequest) {
+            var xhr = new XMLHttpRequest();
+        } else { //IE6及其以下版本浏览器
+            var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.withCredentials = true;
+        //接收 - 第三步
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                var status = xhr.status;
+                if (status >= 200 && status < 300) {
+                    options.success && options.success(xhr.responseText, xhr.responseXML);
+                } else {
+                    options.fail && options.fail(status);
+                }
+            }
+        }
+
+        //连接 和 发送 - 第二步
+        if (options.type == "GET") {
+            xhr.open("GET", options.url, true);
+            xhr.send(null);
+        } else if (options.type == "POST") {
+            xhr.open("POST", options.url, true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(JSON.stringify(options.data));
+        }
+    }
+    var errorMes,timer,fileCode="";
+    var uploadSelect=document.getElementsByClassName('uploadSelect')[0],
+        upload=document.getElementById('upload'),
+        uploadMes=document.getElementsByClassName('uploadMes')[0],
+        uploading=document.getElementsByClassName('uploading')[0],
+        loadEffect=document.getElementsByClassName('loadEffect')[0],
+        uploadName=document.getElementsByClassName('uploadName')[0];
+    var clock=true;
+    var url="http://localhost:8020/llpt/bos/v1/";
+    function showError(errorMes) {
+        var mes=document.getElementsByClassName('errorMes')[0];
+        if(clock){
+            clock=false;
+            mes.innerHTML=errorMes;
+            mes.style.opacity="0.8";
+            var op=mes.style.opacity*1;
+            timer=setInterval(function () {
+                if(op<0){
+                    clearInterval(timer);
+                    timer = null;
+                    clock=true;
+                    return
+                }
+                op = op - 0.02*(1.1-op);
+                mes.style.opacity=op;
+            },20);
+        }
+    }
+    function loading(name) {
+        uploadMes.style.display= "none";
+        uploading.style.display= "block";
+        loadEffect.style.display= "inline-block";
+        uploadName.innerHTML=name;
+    }
+    function loadSelect() {
+        uploadSelect.innerText="volvo"
+    }
+    function uploadText(){
+        upload.onchange=function () {
+            var inputFile=this.files;
+            if(inputFile.length>0){
+                if(inputFile[0].type!="text/plain"){
+                    errorMes="请上传text格式文件";
+                    showError(errorMes);
+                    upload.value="";
+                    return true;
+                }
+                var size=Math.ceil(inputFile[0].size/1024);
+                if(size>=10240){
+                    errorMes="文件大小不能超过10M";
+                    showError(errorMes);
+                    upload.value="";
+                    return true;
+                }
+                loading(inputFile[0].name);
+                if (inputFile && inputFile[0]) {
+                    var reader = new FileReader(inputFile);
+                    reader.onload = function (e) {
+                        fileCode=e.target.result;
+                        upload.value="";
+                        loadEffect.style.display= "none";
+                    };
+                    reader.readAsDataURL(inputFile[0]);
+                }
+            }
+        };
+    }
+    function uploadBtn() {
+        if(loadEffect.style.display == "none"){
+            console.log(fileCode);
+            console.log(url+'task/dataUpload?app='+uploadSelect.innerText+"&fileCode="+fileCode);
+            /*ajax({
+                url:url+'task/dataUpload?app='+uploadSelect.innerText+"&fileCode="+fileCode,
+                type: "POST",
+                dataType: "json",
+                success:function (response) {
+                    var res = JSON.parse(response);
+                    if(res.status==0){
+
+                        // showError("提交成功");
+                    }
+                }
+            })*/
+        }else{
+            uploadName.innerHTML!=""
+                ? showError("文件正在上传中,请稍后提交!")
+                : showError("请选择上传文件!");
+        }
+    }
+
+    window.onload=function () {
+        loadSelect()
+    }
+</script>
+</body>
+</html>

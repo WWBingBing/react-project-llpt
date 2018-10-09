@@ -1,0 +1,58 @@
+.user-message{
+  margin: 10px;
+  background: #fff;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.homeChart{
+  .dateLine{
+    padding-bottom: 45px;
+    .ant-tabs-nav{
+      cursor: default;
+      .ant-tabs-tab{
+        padding: 4px;
+        font-size: 12px;
+        border: 1px solid #8fc9fb;
+        border-radius: 50%;
+        position: relative;
+        color:#434e59;
+        &.ant-tabs-tab-active{
+          background: #8fc9fb;
+          color: #fff;
+        }
+      }
+      .ant-tabs-tab+.ant-tabs-tab{
+        &:after{
+          position: absolute;
+          content: "";
+          width: 32px;
+          height: 0;
+          border: 1px solid #8fc9fb;
+          top: 50%;
+          right: 100%;
+          transform: translate(-1px,-1px);
+        }
+      }
+    }
+    .ant-tabs-nav-wrap{
+      margin-bottom: 0;
+    }
+    .ant-tabs-nav-container{
+      .ant-tabs-tab-arrow-show{
+        .ant-tabs-tab-prev-icon,.ant-tabs-tab-next-icon{
+          &:before{
+            font-size: 26px !important;
+            color: #8fc9fb;
+          }
+        }
+      }
+    }
+    .ant-tabs-bar{
+      border: 0;
+    }
+    .ant-tabs-ink-bar{
+      display: none !important;
+    }
+  }
+}

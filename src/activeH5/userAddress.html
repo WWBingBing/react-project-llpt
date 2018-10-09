@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta http-equiv="expires" content="0">
+		<script type="text/javascript">
+			(function() {
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+			})()
+		</script>
+		<style type="text/css">
+			html,body,div,ul,li,p,img,span {
+				margin: 0;
+				padding: 0;
+			}
+			ul,ol,li{
+				list-style-type: none;
+				/*font-size: 0;*/
+			}
+			img {
+				border: none;
+				font-size: 0;
+			}
+			html,body {
+				width: 100%;
+				height: 100%;
+				font-family: PingFangSC;
+			}
+			.rems{
+			    width: 1rem;
+			    height: 1px;
+			    z-index: -100;
+			}
+			.wrap{
+				width: 100%;
+				/*height: 100%;*/
+				font-size: 0.14rem;
+				color: #949494;
+			}
+			.wrap input{
+				width: 3.30rem;
+				height: 0.52rem;
+				margin: 0 0.22rem 0 0.23rem;
+				border: none;
+				outline: none;
+				border-bottom: 0.02rem solid #EEEEEE;
+			}
+			/*填写完毕*/
+			.btn-write{
+				width: 2.44rem;
+				height: 0.48rem;
+				margin: 1rem 0.66rem 0 0.65rem;
+				position: relative;
+			}
+			.btn-write-img{
+				width: 100%;
+				height: 100%;
+				border-radius: 0.32rem;
+				background: linear-gradient(180deg,#FFD178 0%,#F78F6B);
+				font-size: 0.2rem;
+				color: white;
+				font-family: FZLTCHJW--GB1;
+				line-height: 0.48rem;
+				text-align: center;
+			}
+			.btn-write-shadow{
+				width: 100%;
+				height: 100%;
+				border-radius: 0.32rem;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.1);
+				display: none;
+			}
+			/*----弹框1----*/
+			.wrap-tan{
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.2);
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.tan-cont{
+				width: 3.18rem;
+				overflow: hidden;
+				background: white;
+				border-radius: 0.13rem;
+				color: #494949;
+				position: absolute;
+				top: 1rem;
+				left: 0.28rem;	
+			}
+			.tan-title{
+				width: 100%;
+				line-height: 0.20rem;
+				font-size: 0.16rem;
+				text-align: center;
+				margin-top: 0.24rem;
+				
+			}
+			.distpicker{
+				width: 3rem;
+				height: 0.52rem;
+				display: inline-block;
+				font-size: 0;
+				margin-left: 0.09rem;
+			}
+			.distpicker select{
+				display: inline-block;
+				outline: none;
+				border: none;
+				width: 1rem;
+				font-size: 0.16rem;
+				height: 0.52rem;
+				margin-top: 0.5rem;
+			}
+			#tijiao{
+				border: none;
+				display: inline-block;
+				width: 1.18rem;
+				line-height: 0.42rem;
+				border-radius: 0.21rem;
+				background: linear-gradient(180deg,#FFD178 0%,#F78F6B);
+				color: white;
+				font-size: 0.16rem;
+				margin: 0 1rem 0.2rem;
+			}
+			/*弹窗2：确认地址信息*/
+			.wrap-order{
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.2);
+				position: absolute;
+				top: 0;
+				left: 0;
+				font-size: 0.14rem;
+				display: none;
+			}
+			.order-cont{
+				width: 3.18rem;
+				height: 3.86rem;
+				background: white;
+				border-radius: 0.13rem;
+				color: #494949;
+				position: absolute;
+				top: 1rem;
+				left: 0.28rem;
+			}
+			/*标题*/
+			.order-title{
+				width: 100%;
+				line-height: 0.22rem;
+				text-align: center;
+				margin: 0.24rem 0 0.09rem;
+				
+				
+			}
+			/*详细信息*/
+			.order-list{
+				width: 2.80rem;
+				margin: 0 0.19rem 0;
+			}
+			.order-list li{
+				width: 100%;
+				line-height: 0.5rem;
+				border-bottom: 0.02rem solid #EEEEEE;
+				color: #949494;
+			}
+			.order-list li span{
+				color: #494949;
+			}
+			/*按钮*/
+			.btn-false,.btn-true{
+				width: 1.24rem;
+				height: 0.48rem;
+				border-radius: 0.21rem;
+				position: absolute;
+				bottom: 0.21rem;
+			}
+			.btn-false img,.btn-true img{
+				width: 100%;
+				height: 100%;
+			}
+			.btn-false{
+				left: 0.20rem;
+			}
+			.btn-true{
+				right: 0.20rem;
+			}
+			.btn-false-shadow,.btn-true-shadow{
+				width: 100%;
+				height: 100%;
+				border-radius: 0.21rem;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.1);
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div class="rems"></div>
+			<input type="text" class="userName"  placeholder="输入收货人"/>
+			<input type="text" class="userPhone" placeholder="收入手机号"/>
+			<input type="text" class="userCity" placeholder="选择所在地区"/>
+			<input type="text" class="userAddress" placeholder="详细地址：如街道、门牌号、小区、楼号、单元"/>
+			<!--填写完毕-->
+			<div class="btn-write">
+				<img class="btn-write-img" src="images/user-adddress-tianxie.png"/>
+				<div class="btn-write-shadow"></div>
+			</div>
+		</div>
+			
+		<div class="wrap-tan">
+			<div class="rems"></div>
+			<div class="tan-cont">
+				<div class="tan-title">请选择所在地区</div>
+				<div class="distpicker" data-toggle="distpicker">
+				    <select id="eprovinceName" data-province="浙江省" name="provinceName"></select>
+				    <select id="ecityName" data-city="杭州市" name="cityName"></select>
+				    <select id="edistrictName" data-district="西湖区" name="districtName"></select>
+				</div>	
+				<input type='button'  value="提交"  id='tijiao'>
+			</div>
+		</div>
+		<div class="wrap-order">
+			<div class="rems"></div>
+			<div class="order-cont">
+				<div class="order-title">请你核对订单信息</div>
+				<ul class="order-list">
+					<li>收货人：<span class="order-user"></span></li>
+					<li>手机号码：<span class="order-phone"></span></li>
+					<li>所在地区：<span class="order-address"></span></li>
+					<li>详细地址：<span class="order-detail"></span></li>
+				</ul>
+				<!--修改-->
+				<div class="btn-false">
+					<img src="images/user-address-xiugai.png"/>
+					<div class="btn-false-shadow"></div>
+				</div>
+				<!--确认-->
+				<div class="btn-true">
+					<img src="images/user-address-queren.png"/>
+					<div class="btn-true-shadow"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery2.02.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/distpicker.data.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/distpicker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//分割链接
+		var prizeId,userId;
+		function setMessage() {
+		    try{
+		        var searchUrl=location.href.split("?")[1].split('&');
+		        searchUrl.forEach(function(item){
+			        if("prizeId"==item.split('=')[0]){
+			        	prizeId=item.split('=')[1];
+				    }else if("userId"==item.split('=')[0]){
+				        userId=item.split('=')[1];
+				    }
+		        });
+		    }catch(error){
+		        console.log(error)
+		    }
+		}
+		//点击所在地区
+		$(".userCity").click(function () {
+			$(".wrap-tan").show();
+			
+		})
+		//三级联动内容
+		var province,city,district;
+		$("#tijiao").click(function(){
+			province = $("#eprovinceName").find("option:selected").text();  
+			city = $("#ecityName").find("option:selected").text();  
+			district = $("#edistrictName").find("option:selected").text();  
+			console.log(province);
+			console.log(city);
+			console.log(district);
+			$(".userCity")[0].value=province+city+district;
+			$(".wrap-tan").hide();
+			console.log($(".userCity").val())
+		});
+		//-----确认信息的弹窗
+		//点击填写完毕
+		$(".btn-write-img").click(function(){
+			$(".wrap-order").show();
+			$(".order-user").text($(".userName").val());
+			$(".order-phone").text($(".userPhone").val());
+			var address = province+city+district;
+			if (address) {
+				$(".order-address").text(province+" "+city+" "+district);
+			} else{
+				$(".order-address").text("");
+			}
+			
+			$(".order-detail").text($(".userAddress").val());
+		})
+		//点击修改
+		$(".btn-false").click(function () {
+			$(".btn-false-shadow").show();
+			setTimeout(function () {
+				$(".wrap-order").hide();
+				$(".btn-false-shadow").hide();
+			},0);
+		})
+		//点击确认
+		$(".btn-true").click(function () {
+			setMessage();
+			console.log(userId,prizeId)
+			$(".btn-true-shadow").show();
+			setTimeout(function(){
+				$(".wrap-order").hide();
+				$(".btn-true-shadow").hide();
+			})
+			//请求接口
+			var prizeAddress = province+city+district+$(".userAddress").val();
+			var prizeName=$(".userName").val();
+			var prizePhone=$(".userPhone").val();
+			 ajax({
+		        url:'activity/saveWinInfo',
+		        type: "POST",
+		        data:{
+		            'prizeAddress':prizeAddress,
+		            'prizeId':prizeId,
+		            'prizeName':prizeName,
+		            'prizePhone':prizePhone,
+		            'userId':userId
+		        },
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            console.log(res.status)
+		            if(res.status==0){
+		                window.location.href="https://llpt-bos.ballpie.com/activeH5/addressSuccess.html";
+		            }else{
+		                window.location.href="https://llpt-bos.ballpie.com/activeH5/addressFail.html";
+		            }
+		        }
+		    })	
+		})
+		
+		
+		//计算rem  (兼容识别rem不准问题)
+		function remAgain() {
+			var width = window.innerWidth / 375 * 100;
+			document.documentElement.style.fontSize = width + "px";
+			var rems = document.getElementsByClassName("rems")[0];
+			if(rems.clientWidth != width && window.innerWidth != 0) {
+				document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+			}
+		}
+		
+		
+		
+		//html加载结束后就开始执行
+		$(document).ready(function () {
+			setTimeout(function () {
+				remAgain();
+			},0)
+			
+		})
+	</script>
+</html>

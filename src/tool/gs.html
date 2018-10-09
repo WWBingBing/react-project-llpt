@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>个税计算器</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result h2{
+            font-size: 0.30rem;
+            line-height: 0.42rem;
+        }
+        .allPriceLine{
+            width: 100%;
+            height: 1px;
+            background: #ccc;
+            margin: 12px 0;
+        }
+        .computed{
+            margin-top: 1.36rem;
+        }
+        .computedResult{
+            margin-top: 0.1rem;
+        }
+        .submitBtnS{
+            padding-top: 0.8rem;
+            padding-bottom: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <p>应缴税款（元）</p>
+            <h2 class="allPrice">0.00</h2>
+            <div class="allPriceLine"></div>
+            <p>实发工资（元）</p>
+            <h2 class="allPrice">0.00</h2>
+        </div>
+    </div>
+    <div class="computed">
+        <div class="list">
+            <span>税前工资</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="9" type="text">
+            <span class="unit">元</span>
+        </div>
+        <div class="list">
+            <span>各项社会保险费</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="8" type="text">
+            <span class="unit">元</span>
+        </div>
+        <div class="list last">
+            <span>起征点</span>
+            <input class="priceInput" placeholder="请输入金额"  maxlength="5" type="text">
+            <span class="unit">元</span>
+        </div>
+    </div>
+    <div class="computedResult">
+        <div class="list">
+            <span>应纳税所得额</span>
+            <div class="priceDiv">0</div>
+            <span class="unit">元</span>
+        </div>
+        <div class="list">
+            <span>适用税率</span>
+            <div class="priceDiv">0</div>
+            <span class="unit">%</span>
+        </div>
+        <div class="list last">
+            <span>速算扣除数</span>
+            <div class="priceDiv">0</div>
+            <span class="unit">元</span>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var allPrice0=getClassName("allPrice")[0],
+        allPrice1=getClassName("allPrice")[1],
+        priceInput0=getClassName("priceInput")[0],
+        priceInput1=getClassName("priceInput")[1],
+        priceInput2=getClassName("priceInput")[2],
+        priceDiv0=getClassName("priceDiv")[0],
+        priceDiv1=getClassName("priceDiv")[1],
+        priceDiv2=getClassName("priceDiv")[2];
+    function rule(surplus) {
+        var name0,name1,div1,div2;
+        priceDiv0.innerText=surplus;
+        if(surplus<=1500){
+            div1=3;
+            div2=0;
+        }else if(surplus<=4500){
+            div1=10;
+            div2=105;
+        }else if(surplus<=9000){
+            div1=20;
+            div2=555;
+        }else if(surplus<=35000){
+            div1=25;
+            div2=1005;
+        }else if(surplus<=55000){
+            div1=30;
+            div2=2755;
+        }else if(surplus<=80000){
+            div1=35;
+            div2=5505;
+        }else {
+            div1=45;
+            div2=13505;
+        }
+        name0=Format(surplus*div1*0.01);
+        name1=Format(surplus+parseFloat(priceInput2.value)-name0+div2);
+        allPrice0.innerText=Format(name0-div2);
+        allPrice1.innerText=name1;
+        priceDiv1.innerText=div1;
+        priceDiv2.innerText=div2;
+    }
+    function reset() {
+        priceInput0.value="";
+        priceInput1.value="";
+        priceInput2.value="";
+        allPrice0.innerText="0.00";
+        allPrice1.innerText='0.00';
+        priceDiv0.innerText=0;
+        priceDiv1.innerText=0;
+        priceDiv2.innerText=0;
+    }
+    function submitMes(type) {
+        if(type=='submit'){
+            if(!CheckElem(priceInput0,"税前工资")) return false;
+            if(!CheckElem(priceInput1,"各项社会保险费")) return false;
+            if(!CheckElem(priceInput2,"起征点")) return false;
+            var surplus=parseFloat(priceInput0.value)-parseFloat(priceInput1.value)-parseFloat(priceInput2.value);
+            surplus<=0?opacityMes("您无需缴纳个人所得税!"):rule(surplus);
+        }else{
+            reset();
+        }
+    }
+</script>
+</body>
+</html>

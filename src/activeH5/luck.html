@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta http-equiv="expires" content="0">
+		<script type="text/javascript">
+			(function() {
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+			})()
+		</script>
+		<style type="text/css">
+			html,body,div,ul,li,p,img,span {
+				margin: 0;
+				padding: 0;
+			}
+			ul,ol,li{
+				list-style-type: none;
+				/*font-size: 0;*/
+			}
+			img {
+				border: none;
+				font-size: 0;
+			}
+			html,body {
+				width: 100%;
+				height: 11.37rem;
+				font-family: PingFangSC;
+				background: linear-gradient(180deg,#4D1964 0rem,#131B52 12rem) no-repeat;
+				
+			}
+			.rems{
+			    width: 1rem;
+			    height: 1px;
+			    z-index: -100;
+			}
+			.wrap{
+				width: 100%;
+				height: 11.37rem;
+				/*height: 100%;*/
+				color: white;
+				/*background-image: url("images/luck-img.jpg");*/
+				background-size: 100% 100%;
+				position: relative;
+				font-size: 0;
+				
+			}
+			/*中奖按钮*/
+			.prize-btn{
+				width: 0.45rem;
+				height: 0.45rem;
+				margin: 0.2rem 0.21rem 0 3.10rem;
+				overflow: hidden;
+				position: relative;
+				/*background: lightblue;*/
+			}
+			.prize-btn img{
+				width: 3.75rem;
+				position: absolute;
+				top: -0.2rem;
+				right: -0.17rem;
+				
+			}
+			.prize-time{
+				width: 3.75rem;
+				height: 1.29rem;
+				margin: 0.05rem 0 0;
+				position: relative;
+				font-size: 0;
+				overflow: hidden;
+				/*background: lightblue;*/
+			}
+			
+			/*.prize-time img{
+				width: 100%;
+				height: 100%;
+			}*/
+			.prize-time .xuebi{
+				width: 3.75rem;
+				position: absolute;
+				top: -0.64rem;
+				left: 0;
+			}
+			.prize-time-title{
+				width: 2.02rem;
+				line-height: 0.46rem;
+				position: absolute;
+				top: 0rem;
+				left: 0.86rem;
+				font-size: 0.25rem;
+				color: white;
+				font-weight: 900;
+				text-align: center;
+				
+			}
+			.prize-time-open{
+				width: 3.17rem;
+				line-height: 0.23rem;
+				position: absolute;
+				left: 0.25rem;
+				bottom: 0.28rem;
+				color: #E7CEFF;
+				text-align: center;
+				font-size: 0.16rem;
+			}
+			.prize-time-open i{
+				font-style: normal;
+				font-size: 0.25rem;
+				color: #FCD21D;
+			}
+			
+			/*任务进度*/
+			.task{
+				width: 3.24rem;
+				height: 1.4rem;
+				margin: 2.87rem 0.26rem 0 0.25rem;
+				border: 0.02rem solid #FFC826;
+				background: #2D176E;
+				border-radius: 0.12rem;
+				position: relative;
+				
+			}
+			.task-title{
+				width: 3.75rem;
+				height: 0.27rem;
+				position: absolute;
+				top: -0.41rem;
+				left: -0.27rem;
+				overflow: hidden;
+				
+			}
+			.task-title .xuebi{
+				width: 3.75rem;
+				position: absolute;
+				top: -4.55rem;
+			}
+			.task-draw{
+				width: 2.10rem;
+				margin: 0.31rem 0.55rem 0;
+				font-size: 0.14rem;
+				line-height: 0.20rem;
+				color: #FCD21D;
+				text-align: center;
+				
+			}
+			.task-progress{
+				width: 100%;
+				height: 0.52rem;
+				margin: 0.16rem 0 0.21rem;
+				font-size: 0;
+			}
+			.task-progress li{
+				display: inline-block;
+				width: 1.60rem;
+				height: 0.52rem;
+			}
+			.task-progress li span{
+				display: inline-block;
+				width: 100%;
+			}
+			.task-progress li span:nth-child(1){
+				font-size: 0.20rem;
+				line-height: 0.28rem;
+				text-align: center;
+			}
+			.task-progress li span:nth-child(2){
+				font-size: 0.14rem;
+				line-height: 0.20rem;
+				text-align: center;
+				margin-top: 0.04rem;
+			}
+			.task-progress-week{
+				color: #FCD21D;
+			}
+			/*------玩法攻略-----*/
+			.strategy{
+				width: 3.24rem;
+				height: 3.35rem;
+				margin: 0.59rem 0.26rem 0 0.25rem;
+				border: 0.02rem solid #FFC826;
+				background: #2D176E;
+				border-radius: 0.12rem;
+				position: relative;
+			}
+			.strategy-title{
+				width: 3.75rem;
+				height: 0.28rem;
+				position: absolute;
+				top: -0.42rem;
+				left: -0.27rem;
+				overflow: hidden;
+				/*background: lightblue;*/
+			}
+			.strategy-title .xuebi{
+				width: 3.75rem;
+				position: absolute;
+				top: -6.49rem;
+			}
+			.strategy-font{
+				width: 3.01rem;
+				height: 3.14rem;
+				margin:0.11rem 0.12rem 0.1rem 0.11rem;
+				font-size: 0.14rem;
+				line-height: 0.26rem;
+				color: white;
+			}
+			
+			
+			
+						
+			/*----立即开始任务----*/
+			.fixed{
+				width: 3.75rem;
+				height: 0.54rem;
+				position: fixed;
+				left: 0rem;
+				bottom: 0.3rem;
+				/*background: #00BFF3;*/
+				font-size: 0;	
+				overflow: hidden;
+			}
+			.fixed-shadow{
+				width: 3.45rem;
+				height: 0.48rem;
+				border-radius: 0.42rem;
+				position: fixed;
+				left: 0.15rem;
+				bottom: 0.3rem;
+				background: rgba(0,0,0,0.1);
+				font-size: 0;
+				display: none;
+			}
+			.fixed img{
+				width: 3.75rem;
+				position: absolute;
+				top: -10.55rem;
+			}
+			/*中奖*/
+			.win-prize{
+				width: 3.75rem;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.6);
+				display: none;
+			}
+			.win-prize-img{
+				width: 2.63rem;
+				height: 2.83rem;
+				position: fixed;
+				top: 1.35rem;
+				left: 0.56rem;
+				
+			}
+			.win-prize-x{
+				width: 0.24rem;
+				height: 0.24rem;
+				position: fixed;
+				top: 4.43rem;
+				left: 1.76rem;
+			}
+			/*未中奖*/
+			.not-prize{
+				width: 3.75rem;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.6);
+				display: none;
+			}
+			.not-prize-img{
+				width: 2.63rem;
+				height: 2.83rem;
+				position: fixed;
+				top: 1.35rem;
+				left: 0.56rem;
+				
+			}
+			.win-prize-x{
+				width: 0.24rem;
+				height: 0.24rem;
+				position: fixed;
+				top: 4.43rem;
+				left: 1.76rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--全部内容-->
+		<div class="wrap">
+			<div class="rems"></div>
+			<!--礼物按钮-->
+			<div class="prize-btn">
+				<img src="images/luck-xuebi-1.png"/>
+			</div>
+			<div class="prize-time">
+				<img class="xuebi" src="images/luck-xuebi-1.png"/>
+				<div class="prize-time-title"></div>
+				<div class="prize-time-open">距离开奖还有
+					<i class="open-day"></i>天
+					<i class="open-hour"></i>小时
+					<i class="open-minute"></i>分
+					<i class="open-miao"></i>秒
+				</div>
+			</div>
+			
+			<!--任务进度-->
+			<div class="task">
+				<div class="task-title">
+					<img class="xuebi" src="images/luck-xuebi-1.png"/>
+				</div>
+				<div class="task-draw"></div>
+				<ul class="task-progress">
+					<li><span class="task-progress-week"></span><span>本周已连做任务</span></li>
+					<li><span class="task-progress-day"></span><span>今天已做任务</span></li>
+				</ul>
+				
+			</div>
+			
+			<!--玩法攻略-->
+			<div class="strategy">
+				<div class="strategy-title">
+					<img class="xuebi" src="images/luck-xuebi-1.png"/>
+				</div>
+				<ul class="strategy-font">
+					<li>1.每日完成6项任务，一周内连续做满5天，即可获得1次开奖资格；</li>
+					<li>2.平台开奖时间为每周日20点；</li>
+					<li>3.奖品请点击本页面右上角“奖品”图标查看领取并填写收货地址；</li>
+					<li>4.添加官方客服微信：xind918，添加时备注注册手机号码，加微信群第一时间了解开奖信息；</li>
+					<li>5.通过平台抽奖获得的奖励我们会在中奖后2个工作日根据您所填地址发出；</li>
+					<li>6.若存在恶意刷任务获取奖励，我们将取消您的开奖资格以及奖励；</li>
+					<li>7.活动最终解释权归“薪动”app所有。</li>
+				</ul>
+			</div>
+			<!--中奖名单-->
+			<div class="win">
+				<div class="win-title">
+					
+				</div>
+				<ul class="win-list">
+					
+				</ul>
+			</div>
+			<!--立即开始-->
+			<div class="fixed">
+				<img class="xuebi" src="images/luck-xuebi-1.png"/>
+				<div class="fixed-shadow"></div>
+			</div>
+			<!--中奖-->
+			<div class="win-prize">
+			</div>
+			<!--未中奖-->
+			<div class="not-prize">
+			</div>
+			
+		</div>
+	</body>
+	<script src="js/jquery2.02.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//分割链接
+		var userId;
+		function setMessage() {
+		    try{
+		        var searchUrl=window.location.href.split("?")[1].split('&');
+		        for (var i = 0; i < searchUrl.length; i++) {
+		        	var item = searchUrl[i];
+		        	if("userId"==item.split('=')[0]){
+				        userId=item.split('=')[1];
+				    }
+		        }
+		    }catch(error){
+		        console.log(error)
+		    }
+		}
+		var prizeDate,prizeState,todayTask,continuousdays,prompt,prizeWindowDto,winningListDtos,winTime,prizeUrl,windowFlag,winning,notPrizeUrl,winPrizeUrl;
+		function detailLoad () {
+			//截取url
+		    setMessage();
+		    ajax({
+		        url:'activity/main?userId='+userId,
+		        type: "POST",
+		        data:{},
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            console.log(res)
+		            if(res.status==0){
+		            	console.log(res.data);
+		            	
+						//开奖的状态(完成)
+						 prizeState=res.data.prizeState;//
+						 document.getElementsByClassName("prize-time-title")[0].innerText=prizeState;
+						//今日完成数 (完成)
+						todayTask=res.data.todayTask;//有,可以用
+						document.getElementsByClassName("task-progress-day")[0].innerText=todayTask+"个";
+						//连续完成任务天数  (完成)
+						continuousdays=res.data.continuousdays;//有,可以用
+						document.getElementsByClassName("task-progress-week")[0].innerText=continuousdays+"天";
+						//抽奖资格   (完成)
+						prompt=res.data.prompt;//有,可以用
+						document.getElementsByClassName("task-draw")[0].innerText=prompt;
+						//---中奖弹窗的内容（完成）    
+     					//是否弹框
+						windowFlag=res.data.prizeWindowDto.windowFlag;
+						console.log(windowFlag)
+						//是否中奖
+						winning=res.data.prizeWindowDto.winning;
+						console.log(winning)
+						//中奖图片
+		            	winPrizeUrl=res.data.winPrizeUrl;
+		            	//未中奖图片
+		            	notPrizeUrl=res.data.notPrizeUrl;
+						tanPrize ();
+						
+						//查询中奖列表  
+						winningListDtos=res.data.winningListDtos;//有,目前用不到
+						//开奖倒计时（完成）
+						winTime=res.data.winTime;
+						lastTime ();
+						//背景图(完成)
+						prizeUrl=res.data.prizeUrl;
+						document.getElementsByClassName("wrap")[0].style.backgroundImage="url("+prizeUrl+")";
+		            	
+		            }
+		        }
+		    })	
+		}
+		//是否弹窗
+		function tanPrize () {
+			console.log(111)
+			if (windowFlag==true&&winning==true) {//弹中奖
+				var win =document.getElementsByClassName("win-prize")[0];
+				win.innerHTML='<img class="win-prize-img" src="images/win-prize.png"/><img class="win-prize-x"src="images/win-prize-x.png"/>';
+				win.style.display="block";
+				//点击中奖的X号
+				document.getElementsByClassName("win-prize-x")[0].onclick=function () {
+					document.getElementsByClassName("win-prize")[0].style.display="none";
+					setMessage();
+				    ajax({
+				        url:'activity/closeWindow?userId='+userId,
+				        type: "POST",
+				        data:{},
+				        dataType: "json",
+				        success:function (response) {
+				            var res=JSON.parse(response);
+				            console.log(res)
+				            if(res.status==0){
+				            	
+				     		}
+			       		}
+			    	})	
+				};
+			} else if (windowFlag==true&&winning==false) {//弹不中奖
+				var not = document.getElementsByClassName("not-prize")[0];
+				not.innerHTML='<img class="not-prize-img" src="images/not-prize.png"/><img class="not-prize-x win-prize-x"src="images/win-prize-x.png"/>';
+				not.style.display="block";
+				//点击失败的X号
+				document.getElementsByClassName("not-prize-x")[0].onclick=function () {
+					document.getElementsByClassName("not-prize")[0].style.display="none";
+					setMessage();
+				    ajax({
+				        url:'activity/closeWindow?userId='+userId,
+				        type: "POST",
+				        data:{},
+				        dataType: "json",
+				        success:function (response) {
+				            var res=JSON.parse(response);
+				            console.log(res)
+				            if(res.status==0){
+				            	
+				     		}
+			       		}
+			    	})	
+				};
+			}
+			
+			
+		}
+		//判断显示的内容
+		//判断ios，安卓进行跳转
+		var fiexdbtn = document.getElementsByClassName('fixed')[0];
+		fiexdbtn.onclick=function () {
+			$(".fixed-shadow").show();
+			setTimeout(function () {
+				$(".fixed-shadow").hide();
+			},0);
+			var u = navigator.userAgent;
+		    var isAndroid = u.indexOf('Android') > -1 ;
+		    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+		    if(isAndroid){
+		    	window.AndroidWebView.luckUrl();
+		    }
+		    if(isiOS){
+//		   		window.luckUrl();
+//		   		window.webkit.messageHandlers.luckUrl.postMessage(null）;
+		   		window.webkit.messageHandlers.luckUrl.postMessage({name:"luckUrl"});
+		    }
+		}
+		//时间倒计时
+		function time () {
+				var dateTime = new Date(); 
+				var time = Math.floor((winTime-dateTime)/1000);
+				//天
+				var d = Math.floor(time/(24*60*60));
+				//小时
+				var h = Math.floor(time/60/60%24);
+				//分钟
+				var m = Math.floor(time/60%60);
+				//秒
+				var s = Math.floor(time%60);
+				document.getElementsByClassName("open-day")[0].innerText=d;
+				document.getElementsByClassName("open-hour")[0].innerText=h;
+				document.getElementsByClassName("open-minute")[0].innerText=m;
+				document.getElementsByClassName("open-miao")[0].innerText=s;
+		}
+		function lastTime () {
+			var time1 = new Date();
+			if ((winTime-time1)>590400000) {
+				document.getElementsByClassName('prize-time-open')[0].innerText="开奖结果请关注下方中奖名单";
+				document.getElementsByClassName('prize-time-title')[0].innerText="已开奖";
+				
+			} else{
+				time();
+				setInterval(function () {
+					time();
+				})
+			}
+			
+		}
+		//计算rem  (兼容识别rem不准问题)
+		function remAgain() {
+			var width = window.innerWidth / 375 * 100;
+			document.documentElement.style.fontSize = width + "px";
+			var rems = document.getElementsByClassName("rems")[0];
+			if(rems.clientWidth != width && window.innerWidth != 0) {
+				document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+			}
+		}
+		
+		
+		//html加载结束后就开始执行
+		$(document).ready(function () {
+			detailLoad ();
+			
+			
+		})
+		//资源加载完成后,开始执行
+		window.onload=function () {
+			setTimeout(function () {
+				remAgain();
+			},0)
+			$(".prize-btn").click(function () {
+			window.location.href="https://llpt-bos.ballpie.com/activeH5/userPrize.html?userId="+userId;
+			})
+		}
+	</script>
+</html>

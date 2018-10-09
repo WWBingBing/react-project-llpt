@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        html,body,div,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        .money-page{
+            font-size: 0.12rem;
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+    </style>
+</head>
+<body>
+    <div class="money-page">
+        <div class="rems"></div>
+        <div>H5钱币收入</div>
+    </div>
+    <script>
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+        window.onload=function () {
+            setTimeout(function () {
+                remAgain()
+            });
+        }
+    </script>
+</body>
+</html>

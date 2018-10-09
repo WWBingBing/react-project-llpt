@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        html,body,div,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        .money-page{
+            font-size: 0.12rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .rems{
+            width: 1rem;
+            height: 0.01rem;
+            z-index: -100;
+        }
+        .money-page-header{
+            height: 0.5rem;
+            line-height: 0.5rem;
+            display: flex;
+            background: #fff;
+        }
+        .money-page-header-cell{
+            flex: 1;
+            font-size: 0.16rem;
+            color: #747C96;
+            text-align: center;
+        }
+        .active-cell{
+            color: #2B3033;
+            position: relative;
+        }
+        .active-cell:after{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            margin-left: -0.16rem;
+            width: 0.32rem;
+            height: 0.02rem;
+            background: #917EFD;
+        }
+        .money-page-content{
+            flex: 1;
+            overflow-y: auto;
+            background: #F6F6F7;
+        }
+        .money-page-content ul{
+            /*min-height: 5.57rem;*/
+        }
+        .money-page-content ul li{
+            /*display: flex;*/
+        }
+        .data-all{
+            display: flex;
+            line-height: 0.3rem;
+            padding: 0 0.16rem;
+        }
+        .data-all-r{
+            flex: 1;
+            text-align: right;
+            color: #FF655F;
+        }
+        .data-other{
+            display: flex;
+            background: #fff;
+            padding: 0.17rem 0.16rem;
+            font-size: 0.12rem;
+            color: #4A4A4A;
+            position: relative;
+            align-items: center;
+        }
+        .data-other:after{
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0.16rem;
+            right: 0.16rem;
+            height: 0.01rem;
+            background: #F5F5F5;
+            /*transform: scaleY(0.5);*/
+        }
+        .data-other-l{
+            font-size: 0;
+        }
+        .data-other-l img{
+            width: 0.3rem;
+            height: 0.3rem;
+        }
+        .data-other-m {
+            padding-left: 0.16rem;
+        }
+        .data-other-m-text{
+            font-size: 0;
+        }
+        .data-other-m-text >span:nth-of-type(1){
+            display: inline-block;
+            vertical-align: top;
+            color: #4A4A4A;
+            line-height: 0.2rem;
+            font-size: 0.14rem;
+            margin-right: 0.08rem;
+        }
+        .data-other-m-text >span:nth-of-type(2){
+            display: inline-block;
+            font-size: 0.1rem;
+            line-height: 1;
+            border-radius: 0.12rem;
+            padding: 0.05rem 0.1rem;
+            background: #E1DAFE;
+        }
+        .data-other-m-time{
+            line-height: 0.17rem;
+            color: #9B9B9B;
+            margin-top: 0.06rem;
+        }
+        .data-other-r{
+            flex: 1;
+            text-align: right;
+        }
+        /*up down
+        */
+
+        .top-tip{
+            position: absolute;
+            top: -0.4rem;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            height:0.4rem;
+            line-height:0.4rem;
+            text-align:center;
+            color: #555;
+            font-size: 0;
+        }
+        .top-tip-loading{
+            display: inline-block;
+            width: 0.2rem;
+            height: 0.2rem;
+            vertical-align: middle;
+        }
+        .top-tip-text{
+            font-size: 0.14rem;
+            vertical-align: middle;
+            display: none;
+        }
+        .bottom-tip{
+            /*position: absolute;*/
+            /*bottom: -0.35rem;*/
+            /*left: 0;*/
+            /*z-index: 1;*/
+            width: 100%;
+            height:0.35rem;
+            line-height: 0.35rem;
+            text-align: center;
+            font-size: 0;
+            color: #555;
+        }
+        .bottom-tip-loading{
+            width: 0.2rem;
+            height: 0.2rem;
+            vertical-align: middle;
+            display: none;
+        }
+        .bottom-tip-text{
+            font-size: 0.14rem;
+            vertical-align: middle;
+            display: none;
+        }
+        .alert{
+            display: none;
+            position: fixed;
+            top: 0.55rem;
+            left: 0;
+            z-index: 2;
+            width: 100%;
+            height: 0.35rem;
+            line-height: 0.35rem;
+            text-align: center;
+            color: #fff;
+            font-size: 0.12rem;
+            background: rgba(7, 17, 27, 0.7);
+        }
+        .money-page-empty{
+            text-align: center;
+            position: fixed;
+            top: 0.51rem ;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            background: #fff;
+            padding-top: 1rem;
+            display: none;
+        }
+        .money-page-empty img{
+            width: 1.96rem;
+            height: 2.11rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="money-page">
+        <div class="rems"></div>
+        <div class="money-page-header">
+            <div class="money-page-header-cell" onclick="loadHtml(0)">已到账</div>
+            <div class="money-page-header-cell" onclick="loadHtml(1)">未到账</div>
+            <div class="money-page-header-cell" onclick="loadHtml(2)">未通过</div>
+        </div>
+        <div class="money-page-content">
+            <div>
+                <div class="top-tip">
+                    <img class="top-tip-loading" src="./images/loading.gif">
+                    <span class="top-tip-text">刷新成功</span>
+                </div>
+                <ul class="money-page-html"></ul>
+                <div class="bottom-tip">
+                    <img class="bottom-tip-loading" src="./images/loading.gif">
+                    <span class="bottom-tip-text">~ 我是有底线的 ~</span>
+                </div>
+            </div>
+        </div>
+        <div class="money-page-empty">
+            <img src="./images/emptyData.png">
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/ajax-api.js"></script>
+    <script type="text/javascript" src="./js/bScroll.js"></script>
+    <script>
+        var scrollView = new BScroll('.money-page-content',{
+            pullUpLoad: {
+                thresholsd: 0
+            },
+            pullDownRefresh:{
+                threshold: 50,
+                stop: 40
+            }
+        });
+        var page_content=document.getElementsByClassName('money-page-content')[0],
+            money_page_html=document.getElementsByClassName('money-page-html')[0],
+            header_cell=document.getElementsByClassName('money-page-header-cell'),
+            topTipText=document.getElementsByClassName('top-tip-text')[0],
+            topTipLoading=document.getElementsByClassName('top-tip-loading')[0],
+            bottomTipText=document.getElementsByClassName('bottom-tip-text')[0],
+            bottomTipLoading=document.getElementsByClassName('bottom-tip-loading')[0],
+            money_page_empty=document.getElementsByClassName('money-page-empty')[0];
+        var data=[],inType="success",pageNum=1,upStatus=false,downStatus=false,lock=false;
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+            money_page_html.style.minHeight= window.innerHeight-50-35+'px';
+        }
+        function resetData(){
+            bottomTipText.style.display="none";
+            bottomTipLoading.style.display="inline-block";
+            money_page_empty.style.display='none';
+            scrollView.openPullUp({
+                threshold: 0
+            });
+            data=[];
+            pageNum=1;
+            loadData()
+        }
+        function loadHtml(i){
+            for (var h=0;h<header_cell.length;h++){
+                header_cell[h].classList.remove("active-cell");
+            }
+            header_cell[i].classList.add("active-cell");
+            inType = i==0?'success':(i==1?"doing":"fail");
+            money_page_html.innerHTML="";
+            resetData()
+        }
+        function loadData() {
+            var userId=location.href.split('?userId=')[1],params={},htmlStr="";
+            params.userId=userId;
+            params.pageSize=10;
+            params.inType=inType;
+            params.pageNum=pageNum;
+            if(lock){
+                return
+            }
+            lock=true;
+            ajax({
+                url:'coin/inList',
+                type: "POST",
+                data:params,
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    lock=false;
+                    if(res.status==0){
+                        if(res.data.list&&res.data.list.length>0){
+                            if(upStatus){
+                                bottomTipText.style.display="none";
+                                bottomTipLoading.style.display="inline-block";
+                                scrollView.finishPullUp();
+                                scrollView.refresh();
+                                upStatus=false;
+                            }
+                            if(downStatus){
+                                topTipText.style.display="inline-block";
+                                topTipLoading.style.display="none";
+                                scrollView.finishPullDown();
+                                scrollView.refresh();
+                                downStatus=false;
+                            }
+                            data=data.concat(res.data.list);
+                            for(var i=0;i<data.length;i++){
+                                htmlStr +="<li><div class='data-all'><div class='data-all-l'>"
+                                    + data[i]['coinDay'] +
+                                    "</div><div class='data-all-r'>+"
+                                    + data[i]['coinAmount'] +
+                                    "钱币</div></div>";
+                                var childData=data[i]['detailList'],cHtmlStr="";
+                                for (var j=0;j<childData.length;j++){
+                                    cHtmlStr +="<div class='data-other'><div class='data-other-l'><img src='"
+                                        + childData[j]['imgIco'] +
+                                        "'/></div><div class='data-other-m'><p class='data-other-m-text'><span>"
+                                        + childData[j]['taskName'] +
+                                        "</span>"
+                                        + (childData[j]['taskLable']?("<span>"+childData[j]['taskLable']+"</span>"):"") +
+                                        "</p><p class='data-other-m-time'>"
+                                        + childData[j]['modifyTimeStr'] +
+                                        "</p></div><div class='data-other-r'>+"
+                                        + childData[j]['coinAmount'] +
+                                        "钱币</div></div>"
+                                }
+                                htmlStr = htmlStr+cHtmlStr+'</li>';
+                            }
+                            money_page_html.innerHTML=htmlStr;
+                        }
+                        if(res.data.pageNum*res.data.pageSize>=res.data.total){
+                            bottomTipText.style.display="inline-block";
+                            bottomTipLoading.style.display="none";
+                            scrollView.closePullUp();
+                        }
+                        if(res.data.total==0&&res.data.pageNum==1){
+                            // money_page_empty.style.display='block';
+                        }
+                    }
+                }
+            });
+        }
+        function loadScroll() {
+            scrollView.on('pullingUp',function () {
+                pageNum++;
+                upStatus=true;
+                loadData();
+            });
+            scrollView.on('pullingDown',function () {
+                downStatus=true;
+                resetData();
+            });
+            //状态重置
+            scrollView.on('scrollEnd',function () {
+                topTipText.style.display="none";
+                topTipLoading.style.display="inline-block";
+            })
+        }
+        window.onload=function () {
+            loadScroll();
+            loadHtml(0);
+            setTimeout(function () {
+                remAgain()
+            });
+        };
+    </script>
+</body>
+</html>

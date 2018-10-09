@@ -1,0 +1,378 @@
+html,
+body,
+div,
+ul,
+li,
+p,
+img,
+span {
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+ol,
+li {
+	list-style-type: none;
+}
+
+img {
+	border: none;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	font-family: PingFangSC;
+}
+
+.task-wrap {
+	font-size: 0.12rem;
+	width: 100%;
+	/*background: #00BFF3;*/
+	padding-bottom: 20px;
+	overflow: hidden;
+	/*display: none;*/
+}
+
+
+/*step*/
+
+.task-step {
+	width: 100%;
+	background: #fff;
+}
+
+
+/*logo*/
+
+.step-logo {
+	width: 0.4rem;
+	height: 0.4rem;
+	margin: 0.25rem auto 0;
+}
+
+.step-logo img {
+	width: 100%;
+	height: 100%;
+}
+
+
+/*name*/
+
+.step-name {
+	width: 100%;
+	height: 0.2rem;
+	margin: 0.08rem 0 0.24rem;
+	font-size: 0.14rem;
+	text-align: center;
+	color: #4A4A4A;
+	font-weight: 600;
+}
+
+
+/*步骤*/
+
+.step-cont {
+	width: 100%;
+	margin-left: 0.16rem;
+}
+
+.step-cont-title {}
+
+.title {
+	font-size: 0.16rem;
+	line-height: 0.22rem;
+	color: #2B3033;
+	font-weight: 700;
+}
+
+
+/*list*/
+
+.step-cont-list {
+	width: 100%;
+}
+
+.step-cont-list li {
+	font-size: 0.12rem;
+	line-height: 0.17rem;
+	margin: 0.16rem 0;
+	position: relative;
+}
+
+.step-cont-list li span:nth-child(1) {
+	display: inline-block;
+	width: 0.12rem;
+	height: 0.12rem;
+	line-height: 0.12rem;
+	background: #747C96;
+	color: white;
+	text-align: center;
+	border-radius: 50%;
+	position: absolute;
+	top: 0.03rem;
+}
+
+.step-cont-list li span:nth-child(2) {
+	display: inline-block;
+	width: 3.11rem;
+	color: #747C96;
+	margin-left: 0.2rem;
+}
+
+
+/*---study----*/
+
+.task-study {
+	width: 100%;
+	border-top: 0.08rem solid #F6F6F7;
+}
+
+.task-study-title {
+	margin: 0.16rem 0 0.16rem 0.16rem;
+}
+
+.task-study-list {
+	width: 100%;
+	height: 0.8rem;
+	overflow: hidden;
+}
+
+.study-list-photo {
+	width: 10000%;
+	height: 100%;
+	font-size: 0;
+}
+
+.study-photo {
+	width: 0.8rem;
+	height: 0.8rem;
+	background: rgba(0, 0, 0, 0.6);
+	border-radius: 0.06rem;
+	display: inline-block;
+	margin-left: 0.16rem;
+	position: relative;
+}
+
+.study-photo a {
+	width: 100%;
+	height: 100%;
+}
+
+.study-photo a img {
+	width: 100%;
+	height: 100%;
+}
+
+.study-photo span {
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.14rem;
+	background: #000000;
+	border-radius: 0.07rem;
+	position: absolute;
+	right: 0.04rem;
+	bottom: 0.03rem;
+	text-align: center;
+}
+
+.study-photo span em:nth-child(1) {
+	font-style: normal;
+	font-size: 0.11rem;
+	color: white;
+}
+
+.study-photo span em:nth-child(2) {
+	font-style: normal;
+	font-size: 0.08rem;
+	color: white;
+}
+
+.task-study-button {
+	font-size: 0;
+	width: 100%;
+	height: 0.4rem;
+	width: 2.46rem;
+	margin: 0.4rem auto 0.16rem;
+}
+
+.task-study-btn {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	border-radius: 0.25rem;
+	background: linear-gradient(90deg, #917EFD 0%, #5D47FF);
+	font-size: 0.16rem;
+	line-height: 0.4rem;
+	color: white;
+	text-align: center;
+}
+
+
+/*task-photo*/
+
+.task-photo {
+	width: 100%;
+	font-size: 0;
+	border-top: 0.08rem solid #F6F6F7;
+}
+
+.task-photo-title {
+	margin: 0.16rem 0 0 0.16rem;
+}
+
+
+/*截图*/
+
+.task-photo-list {
+	width: 3.59rem;
+	margin-left: 0.16rem;
+}
+
+.task-photo-list li {
+	font-size: 0;
+	display: inline-block;
+	width: 0.76rem;
+	height: 0.76rem;
+	margin: 0.22rem 0.13rem 0 0;
+	border-radius: 0.06rem;
+}
+
+.task-photo-list li img {
+	width: 100%;
+	height: 100%;
+}
+
+
+/*相机图标*/
+
+.task-photo-list-camera {
+	position: relative;
+	display: none;
+}
+
+.camera-font {
+	width: 0.76rem;
+	height: 0.11rem;
+	position: absolute;
+	top: 0.47rem;
+	left: 0;
+	font-size: 0.08rem;
+	text-align: center;
+	color: #B4BBCF;
+
+}
+
+
+/*添加的截图*/
+
+.task-photo-list-photo {
+	background: rgba(0, 0, 0, 0.6);
+	position: relative;
+}
+
+.task-photo-list-photo img:nth-child(1) {
+	width: 100%;
+	height: 100%;
+}
+
+.task-photo-list-photo img:nth-child(2) {
+	width: 0.2rem;
+	height: 0.2rem;
+	position: absolute;
+	top: -0.06rem;
+	right: -0.06rem;
+}
+
+
+/*按钮*/
+
+.task-photo-button {
+	font-size: 0;
+	width: 100%;
+	height: 0.4rem;
+	width: 2.46rem;
+	margin: 0.4rem auto 0.16rem;
+}
+
+.task-photo-btn {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	border-radius: 0.25rem;
+	background: #B4BBCF;
+	font-size: 0.16rem;
+	line-height: 0.4rem;
+	color: white;
+	text-align: center;
+}
+
+
+/*文字*/
+
+.task-photo-font {
+	font-size: 0.12rem;
+	line-height: 0.17rem;
+	color: #B4BBCF;
+	margin-bottom: 0.32rem;
+	text-align: center;
+}
+
+
+/*轮播图*/
+
+.swiper-wrap {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	background: white;
+	display: none;
+}
+
+.swiper-wrapper {
+	margin-left: -0.68rem;
+}
+
+.swiper-container {
+	width: 3.75rem;
+	height: 100%;
+	font-size: 0.16rem;
+}
+
+
+
+.swiper-slide img {
+	width: 3.75rem;
+	/*margin: 0 auto;
+				position: absolute;
+				top: 0; left: 0; bottom: 0; right: 0; */
+}
+
+.swiper-x {
+	position: absolute;
+	top: 0.15rem;
+	right: 0.15rem;
+	z-index: 100;
+}
+
+
+/*截图部分*/
+
+#pic {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	width: 0.76rem;
+	height: 0.76rem;
+	outline: none;
+	opacity: 0;
+}
+.rems{
+    width: 1rem;
+    height: 1px;
+    z-index: -100;
+}

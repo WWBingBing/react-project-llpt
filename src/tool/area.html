@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>面积计算器</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result{
+            box-sizing: border-box;
+            display: flex;
+            padding: 0.22rem 0.15rem 0.22rem 0.23rem;
+        }
+        .result-left{
+            flex: 1;
+        }
+        .numInput{
+            width: 100%;
+            height: 100%;
+            font-size: 36px;
+        }
+        .result-right p{
+            font-size: 0.18rem;
+            line-height: 0.25rem;
+            padding-left: 10px;
+        }
+        .computedResult{
+            margin-top: 0.64rem;
+        }
+        .submitBtnS{
+            padding-top: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <div class="result-left">
+                <input maxlength="14" class="numInput" type="text" value="0">
+            </div>
+            <div class="result-right">
+                <p>平方米</p>
+                <p>(㎡)</p>
+            </div>
+        </div>
+    </div>
+    <div class="computedResult">
+        <div class="list">
+            <span>亩(mu)</span>
+            <div class="priceDiv">0</div>
+        </div>
+        <div class="list">
+            <span>顷(qing)</span>
+            <div class="priceDiv">0</div>
+        </div>
+        <div class="list">
+            <span>公顷(ha)</span>
+            <div class="priceDiv">0</div>
+        </div>
+        <div class="list last">
+            <span>公亩(a)</span>
+            <div class="priceDiv">0</div>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var numInput=getClassName("numInput")[0];
+    var rate=[0.0015,0.000015,0.0001,0.01];
+    function rules(num) {
+        rate.forEach(function (val,index) {
+            getClassName("priceDiv")[index].innerText=FormatNum(parseFloat(val)*parseFloat(num),10);
+        })
+    }
+    function submitMes(type) {
+        if(type=='submit'){
+            if(!CheckElem1(numInput,"数值")) return false;
+            rules(numInput.value)
+        }else{
+            rules(0);
+            numInput.value=0;
+        }
+    }
+
+</script>
+</body>
+</html>

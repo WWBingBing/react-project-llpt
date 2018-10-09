@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires"  content="0">
+    <style type="text/css">
+        html,body,div,ul,li,p,input{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        input{
+            display: inline-block;
+            border:none;
+            outline: none;
+            background: transparent;
+            font-size: 0.12rem;
+            width: 100%;
+            height: 0.14rem;
+            line-height: 0.14rem;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <title>薪动</title>
+    <style type="text/css">
+        .reg-page{
+            background: #6349EB url("images/reg.jpg") no-repeat 0 0;
+            background-size: cover;
+            font-size: 0.12rem;
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+        .reg-page-msg{
+            margin-top: 0.32rem;
+            line-height: 0.18rem;
+            font-size: 0.14rem;
+            color: #fff;
+            text-align: center;
+        }
+        .reg-page-top{
+            height: 1.32rem;
+        }
+        .reg-page-form{
+            width: 3.2rem;
+            margin: 0 auto 0.54rem;
+            overflow: hidden;
+        }
+        .input-border{
+            width: 100%;
+            height: 0.38rem;
+            box-sizing: border-box;
+            font-size: 0;
+            border-radius: 0.8rem;
+            background: #fff;
+            overflow: hidden;
+            position: relative;
+            padding: 0.12rem 0 0.12rem 0.4rem;
+        }
+        .input-b{
+            width: 100% ;
+            padding-right: 1.07rem;
+            box-sizing: border-box;
+            position: relative;
+
+        }
+        .code-button{
+            width: 0.93rem;
+            height: 0.38rem;
+            background: #fff;
+            position:absolute;
+            right: 0;
+            top: 0;
+            border:0;
+            outline:none;
+            border-radius: 0.8rem;
+            color: #6248EB;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            font-size: 0.12rem;
+        }
+        .code-button-active{
+            background: #f7f7f7;
+            color:#ccc;
+            border-color:#d9d9d9;
+        }
+        .reg-page-input{
+            margin-bottom: 0.28rem;
+        }
+        .submit{
+            border:0;
+            outline:none;
+            width: 3.1rem;
+            height: 0.4rem;
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(180deg,#FBF704,#FCD21D);
+            border-radius: 0.2rem;
+            color: #5C3A3F;
+            text-align: center;
+            line-height: 0.4rem;
+            background-size: cover;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        .icon{
+            display: inline-block;
+            height: 0.2rem;
+            position: absolute;
+            top: 0.09rem;
+        }
+        .icon1{
+            width: 0.14rem;
+            left: 0.19rem;
+           overflow: hidden;
+        }
+        .icon1 img{
+        	width: 3.75rem;
+        	position: absolute;
+        	top: -1.91rem;
+        	left: -0.47rem;
+        }
+        .icon2{
+            width: 0.16rem;
+            left: 0.18rem;
+            /*background: lightblue;*/
+            overflow: hidden;
+        }
+        .icon2 img{
+        	width: 3.75rem;
+        	position: absolute;
+        	top: -2.57rem;
+        	left: -0.46rem;
+        }
+        .icon3{
+            width: 0.19rem;
+            left: 0.16rem;
+            /*background: lightblue;*/
+            overflow: hidden;
+        }
+        .icon3 img{
+        	width: 3.75rem;
+        	position: absolute;
+        	top: -3.17rem;
+        	left: -0.44rem;
+        }
+        .errorMes{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            height: 0.53rem;
+            line-height: 0.53rem;
+            font-size: 0.14rem;
+            background: #fff1f0;
+            color: #e4393c;
+            box-sizing: border-box;
+            opacity: 0;
+        }
+        .title{
+            line-height: 1;
+            text-align: center;
+            padding: 0.37rem 0 0.2rem;
+            color: #fff;
+            font-size: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .title img{
+            width: 3.75rem;
+        	position: absolute;
+        	top: -4.36rem;
+        	left: 0rem;
+        }
+        
+        .div-bg{
+            padding: 0 0.1rem 0.1rem;
+            margin-top: 0.3rem;
+        }
+        .div-bg img{
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+</head>
+<body>
+    <div class="reg-page">
+        <div class="rems"></div>
+        <div class="errorMes"></div>
+        <p class="reg-page-msg"></p>
+        <div class="reg-page-top"></div>
+        <div class="reg-page-form">
+            <div class="input-border reg-page-input">
+                <span class="icon icon1">
+                	<img src="images/reg-bg.png"/>
+                </span>
+                <input maxlength="13" id="phone" onkeyup="keyUp(event)" type="text" placeholder="手机号">
+            </div>
+            <div class="input-border reg-page-input">
+                <span class="icon icon2">
+                	<img src="images/reg-bg.png"/>
+                </span>
+                <input maxlength="20" id="password" onkeyup="keyUp(event)" type="password" placeholder="密码（6-20位数字或英文）">
+            </div>
+            <div class="input-b">
+                <div class="input-border">
+                    <span class="icon icon3">
+                    	<img src="images/reg-bg.png"/>
+                    </span>
+                    <input maxlength="6" id="code" type="text" placeholder="请输入验证码">
+                </div>
+                <button class="code-button">获取验证码</button>
+            </div>
+        </div>
+        <button class="submit" >注册</button>
+        <div class="title">
+            <img src="images/reg-bg.png"/>
+        </div>
+        <div class="div-bg">
+            <img src="./images/equities.png">
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/crypto-new.js"></script>
+    <script type="text/javascript" src="./js/ajax-api.js"></script>
+    <script type="text/javascript">
+        var errorMes,timer,timer1,codeSec,items={};
+        // var regDownUrl="https://llpt-bos.ballpie.com/regist/downllpt.html";
+        var regDownUrl="https://llpt-bos.ballpie.com/activeH5/webOutside.html";
+        function ajax(options) {
+            options = options || {};
+            options.type = (options.type || "GET").toUpperCase();
+            options.dataType = options.dataType || "json";
+            //创建 - 非IE6 - 第一步
+            if (window.XMLHttpRequest) {
+                var xhr = new XMLHttpRequest();
+            } else { //IE6及其以下版本浏览器
+                var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            xhr.withCredentials = true;
+            //接收 - 第三步
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    var status = xhr.status;
+                    if (status >= 200 && status < 300) {
+                        options.success && options.success(xhr.responseText, xhr.responseXML);
+                    } else {
+                        options.fail && options.fail(status);
+                    }
+                }
+            }
+            //连接 和 发送 - 第二步
+            if (options.type == "GET") {
+                xhr.open("GET", baseUrl+options.url, true);
+                xhr.send(null);
+            } else if (options.type == "POST") {
+                xhr.open("POST", baseUrl+options.url, true);
+                xhr.setRequestHeader("Content-Type","application/json");
+                xhr.send(JSON.stringify(options.data));
+            }
+        }
+        var clock=true;
+        function opacityMes(errorMes) {
+            var mes=document.getElementsByClassName('errorMes')[0];
+            if(clock){
+                clock=false;
+                mes.innerHTML=errorMes;
+                mes.style.opacity="0.8";
+                var op=mes.style.opacity*1;
+                timer=setInterval(function () {
+                    if(op<0){
+                        clearInterval(timer);
+                        timer = null;
+                        clock=true;
+                        return
+                    }
+                    op = op - 0.02*(1.1-op);
+                    mes.style.opacity=op;
+                },50);
+            }
+        }
+        //设置昵称
+        function setName(nickName) {
+            var text=document.getElementsByClassName("reg-page-msg")[0];
+            var name = nickName,nName;
+            if(nickName.length>2){
+                if(nickName.length==3){
+                    nName=nickName.slice(0,1)+"*"+nickName.slice(2,3);
+                }else if(nickName.length>=4){
+                    nName=nickName.slice(0,1)+"**"+nickName.slice(nickName.length-1,nickName.length);
+                }
+            }else {
+                nName=nickName
+            }
+            text.innerText='您的好友'+nName+'邀您一起';
+        }
+        //加载信息
+        function getMesData() {
+            if(location.href.indexOf("?platformPara=")!=-1){
+                var baseMes=location.href.split("?platformPara=")[1];
+                if(baseMes.indexOf('&')!=-1){
+                    baseMes=baseMes.split('&')[0];
+                }
+                try{
+                    if(baseMes){
+                        baseMes = baseMes.replace('!', '/').replace('*', '+');
+                        baseMes = Base64.decode(baseMes);
+                        if(baseMes != null && baseMes != "undefined") {
+                            if(baseMes.indexOf('inviter')>0){
+                                items = JSON.parse(baseMes.toString());
+                                if(items.nickName){
+                                    setName(items.nickName);
+                                }
+                            }else{
+                                var bytes  = CryptoJS.AES.decrypt(baseMes.toString(), 'secret key 123');
+                                items = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                            }
+                        }
+                    }
+                }catch(err) {
+                    console.log(err)
+                }
+            }
+            if(location.href.indexOf("?id=")!=-1){
+                var inviterId=location.href.split("?id=")[1];
+                items.inviter=inviterId;
+            }
+        }
+        //手机号处理
+        function keyUp(e) {
+            var phoneNo=document.getElementById("phone");
+            var phoneNum = phoneNo.value.trim();
+            if (e.keyCode === 8) {
+                phoneNo.value = phoneNum;
+                return;
+            }
+            var len = phoneNum.length;
+            if (len === 3 || len === 8) {
+                phoneNum += ' ';
+                phoneNo.value = phoneNum;
+            }
+        }
+        //验证码倒计时
+        function codeTime() {
+            var codeButton=document.getElementsByClassName("code-button")[0];
+            var sec = 60;
+            timer1=setInterval(function () {
+                if(sec<1){
+                    sec = null;
+                    clearInterval(timer1);
+                    codeButton.innerHTML="获取验证码";
+                    codeButton.disabled=false;
+                    codeButton.classList.remove("code-button-active");
+                    return
+                };
+                sec = sec - 1;
+                codeSec=sec;
+                codeButton.innerHTML=codeSec+"秒后重发";
+                codeButton.disabled=true;
+                codeButton.classList.add("code-button-active");
+            },1000);
+
+        }
+        //点击验证码
+        document.getElementsByClassName("code-button")[0].onclick=function () {
+            var phoneNo=document.getElementById("phone"),
+                phoneNum=phoneNo.value.replace(/\s+/g,""),
+                password=document.getElementById("password");
+            if(!(/^1[3|4|5|7|8|9]\d{9}$/.test(phoneNum))){
+                errorMes='请输入正确的手机号';
+                opacityMes(errorMes);
+                return
+            }
+            if(!(/^[a-z0-9]{6,20}$/.test(password.value))){
+                errorMes='密码（6-20位数字或英文）';
+                opacityMes(errorMes);
+                return
+            }
+            ajax({
+                url:'user/register/check?username='+phoneNum,
+                type: "GET",
+                data:{},
+                dataType: "json",
+                success:function (resData) {
+                    if(JSON.parse(resData).status==0){
+                        if(!JSON.parse(resData).data){
+                            ajax({
+                                url:'user/register/sendSms?username='+phoneNum,
+                                type: "POST",
+                                data:{},
+                                dataType: "json",
+                                success:function (response) {
+                                    var res=JSON.parse(response);
+                                    if(res.status == 0) {
+                                        codeTime();
+                                    }else{
+                                        opacityMes(res.details);
+                                    }
+                                }
+                            })
+                        }else {
+                            window.location.href=regDownUrl+"?channel=88&_d1="+new Date().getTime();
+                        }
+                    }
+                }
+            });
+        }
+        //提交
+        document.getElementsByClassName("submit")[0].onclick =function (){
+
+            var phoneNo=document.getElementById("phone"),
+                code=document.getElementById("code"),
+                password=document.getElementById("password");
+            var phoneNum=phoneNo.value.replace(/\s+/g,"");
+            if(!(/^1[3|4|5|7|8|9]\d{9}$/.test(phoneNum))){
+                errorMes='请输入正确的手机号';
+                opacityMes(errorMes);
+                return
+            }
+            if(!code.value){
+                errorMes='请输入正确的验证码';
+                opacityMes(errorMes);
+                return
+            }
+            if(!(/^[a-z0-9]{6,20}$/.test(password.value))){
+                errorMes='密码（6-20位数字或英文）';
+                opacityMes(errorMes);
+                return
+            }
+            var item = {};
+
+            item.username = phoneNum;
+
+            item.nickName = phoneNum;
+
+            item.password = password.value;
+
+            item.smsCode = code.value;
+            item.sex = 0;
+            item.avatar = "";
+            delete items.nickName;
+//          console.log(items)
+//          console.log(item)
+            ajax({
+                url:'user/register',
+                type: "POST",
+                data:{
+                	"avatar":item.avatar,	
+					"inviter":items.inviter,
+					"nickName":item.nickName,
+					"password":item.password,
+					"platformSource":items.platformSource,
+					"sex":item.sex,
+					"smsCode":item.smsCode,
+					"username":item.username
+                },
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    if(res.status == 0) {
+                        window.location.href=regDownUrl+"?channel=88&d1="+new Date().getTime();
+                    }else{
+                        opacityMes(res.details);
+                    }
+                }
+            })
+        }
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            sessionStorage.setItem("screen",document.body.clientHeight);
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+        window.onload=function () {
+            setTimeout(function () {
+                remAgain()
+            });
+            getMesData();
+        }
+    </script>
+</body>
+</html>

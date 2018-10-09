@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        img{
+            width: 100%;
+            margin: 10px 0;
+        }
+        .page{
+            padding: 20px 15px;
+        }
+        .page p{
+            line-height: 26px;
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+        .title{
+            color: #2C2C2C;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        .timeIcon{
+            font-size: 0;
+            line-height: 14px;
+            margin: 15px 0 20px;
+        }
+        .time{
+            font-size: 12px;
+            color: #9B9B9B;
+        }
+        .timeIcon span{
+            display: inline-block;
+            vertical-align: top;
+            font-size: 12px;
+        }
+        .icon{
+            width: 22px;
+            height: 14px;
+        }
+        .icon1{
+            background: url("icon.png") no-repeat 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h2 class="title"></h2>
+        <div class="timeIcon">
+            <div class="time"></div>
+            <!--<div class="icons">
+                <span class="icon icon1"></span>
+                <span>11.2w</span>
+                <span class="icon icon2"></span>
+                <span>1111</span>
+                <span class="icon icon3"></span>
+                <span>2222</span>
+            </div>-->
+        </div>
+        <div class="content"></div>
+    </div>
+    <script type="text/javascript">
+        function ajax(options) {
+            options = options || {};
+            options.type = (options.type || "GET").toUpperCase();
+            options.dataType = options.dataType || "json";
+            //创建 - 非IE6 - 第一步
+            if (window.XMLHttpRequest) {
+                var xhr = new XMLHttpRequest();
+            } else { //IE6及其以下版本浏览器
+                var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            xhr.withCredentials = true;
+            //接收 - 第三步
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    var status = xhr.status;
+                    if (status >= 200 && status < 300) {
+                        options.success && options.success(xhr.responseText, xhr.responseXML);
+                    } else {
+                        options.fail && options.fail(status);
+                    }
+                }
+            }
+
+            //连接 和 发送 - 第二步
+            if (options.type == "GET") {
+                xhr.open("GET", options.url, true);
+                xhr.send(null);
+            } else if (options.type == "POST") {
+                xhr.open("POST", options.url, true);
+                xhr.setRequestHeader("Content-Type","application/json");
+                xhr.send(JSON.stringify(options.data));
+            }
+        }
+        var url="https://llpt-bos.ballpie.com/llpt/bos/v1";//正式环境
+        // var url="https://test-agent.ballpie.com/llpt/bos/v1";//测试环境
+        // var url="http://localhost:8020/llpt/bos/v1";
+        var title=document.getElementsByClassName("title")[0],
+            time=document.getElementsByClassName("time")[0],
+            content=document.getElementsByClassName("content")[0];
+        function loadDetail(id) {
+            ajax({
+                url:url+'/info/detail?infoId='+id,
+                type: "POST",
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    if(res.status==0){
+                        title.innerHTML=res.data.title;
+                        time.innerHTML=res.data.publishesTime;
+                        content.innerHTML=res.data.data;
+                    }
+                }
+            })
+        }
+        window.onload=function () {
+            var id=location.href.split("?id=")[1];
+            loadDetail(id)
+        }
+    </script>
+</body>
+</html>

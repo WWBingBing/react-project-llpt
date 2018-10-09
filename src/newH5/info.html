@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        html,body,div,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,ol {
+            list-style: none;
+        }
+        img {
+            border: none;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        button{
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            border:0;
+            outline:none;
+        }
+        .info-page{
+            height: 100%;
+            position: relative;
+        }
+        .rems{
+            width: 1rem;
+            height: 1px;
+            z-index: -100;
+        }
+        .info-page-content{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .info-page-iframe{
+            height:6.17rem;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: scroll;
+        }
+        .down-app{
+            box-sizing: border-box;
+            width: 100%;
+            height: 0.5rem;
+            background: rgba(0,0,0,.5);
+            display: flex;
+            padding: 0.1rem 0.16rem;
+        }
+        .down-app img{
+            width: 0.3rem;
+            height: 0.3rem;
+        }
+        .down-app-text{
+            flex:1;
+            color: #fff;
+            margin-left: 0.09rem;
+        }
+        .down-app-text p{
+            line-height: 1;
+            text-align: left;
+        }
+        .down-app-text p:nth-of-type(1){
+            font-size: 12px;
+            line-height: 0.17rem;
+        }
+        .down-app-text p:nth-of-type(2){
+            font-size: 10px;
+            line-height: 0.13rem;
+        }
+        .down-app-btn{
+            width: 0.69rem;
+            height: 0.3rem;
+            background: url("./images/downBtn.png") no-repeat 0 0;
+            background-size: cover;
+        }
+        .info-page-loading{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background:rgba(0,0,0,.6);
+            display: none;
+        }
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            bottom: 0;
+            margin-left: -25px;
+            margin-top: -30px;
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 10px;
+
+        }
+        .spinner > div {
+            background-color: #67CF22;
+            height: 100%;
+            width: 6px;
+            display: inline-block;
+            -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+            animation: stretchdelay 1.2s infinite ease-in-out;
+        }
+        .spinner .rect2 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+        .spinner .rect3 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+        .spinner .rect4 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+        .spinner .rect5 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+        @-webkit-keyframes stretchdelay {
+            0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+            20% { -webkit-transform: scaleY(1.0) }
+        }
+        @keyframes stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }  20% {
+                   transform: scaleY(1.0);
+                   -webkit-transform: scaleY(1.0);
+               }
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="./js/ajax.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <div class="info-page">
+        <div class="rems"></div>
+        <div class="info-page-loading">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+        <div class="info-page-content">
+            <div class="info-page-iframe"></div>
+            <button class="down-app" id="down-app">
+                <img src="./images/logo.png">
+                <div class="down-app-text">
+                    <p>薪动</p>
+                    <p>聚是一团火 散是满天薪</p>
+                </div>
+                <div class="down-app-btn"></div>
+            </button>
+        </div>
+    </div>
+    <script>
+        var infoPageIframe=document.getElementsByClassName('info-page-iframe')[0],
+            infoPageLoading=document.getElementsByClassName('info-page-loading')[0],
+            id,userId;
+        function loadTitle(title){
+            if(title){
+                document.title = title;
+                if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+                    var i = document.createElement('iframe');
+                    i.style.display = 'none';
+                    i.onload = function() {
+                        setTimeout(function(){
+                            i.remove();
+                        }, 9)
+                    }
+                    document.body.appendChild(i);
+                }
+            }
+        }
+        function setMessage() {
+            try{
+                var searchUrl=location.href.split("?")[1].split('&');
+                searchUrl.forEach((item)=>{
+                    if("id"==item.split('=')[0]){
+                        id=item.split('=')[1];
+                    }else if("userId"==item.split('=')[0]){
+                        userId=item.split('=')[1];
+                    }
+                });
+                loadTitle()
+            }catch(error){
+                console.log(error)
+            }
+        }
+        function loadData() {
+            setMessage();
+            infoPageLoading.style.display="block";
+            ajax({
+                url:'infomg/detail?ucId='+id,
+                type: "POST",
+                data:{},
+                dataType: "json",
+                success:function (response) {
+                    var res=JSON.parse(response);
+                    if(res.status==0&&res.data){
+                        loadTitle(res.data.title)
+                        try{
+                            var iframe = document.createElement('iframe');
+                            iframe.src=res.data.url;
+                            iframe.setAttribute("frameBorder","0");
+                            iframe.setAttribute("width","100%");
+                            iframe.setAttribute("height","100%");
+                            iframe.onload = function(){
+                                infoPageLoading.style.display="none";
+                            };
+                            infoPageIframe.appendChild(iframe);
+                        }catch(e){
+                            var iframe = document.createElement('iframe');
+                            iframe.name = 'ifr';
+                        }
+                    }
+                }
+            })
+        }
+        function regBtn() {
+            document.getElementById('down-app').addEventListener('touchstart',function () {
+                // location.href="https://llpt-bos.ballpie.com/newH5/reg.html?id="+userId
+                location.href="https://llpt-bos.ballpie.com/newH5/reg.html?id="+userId
+            });
+        }
+        //计算rem  (兼容识别rem不准问题)
+        function remAgain() {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+            var rems=document.getElementsByClassName("rems")[0];
+            if(rems.clientWidth!=width && window.innerWidth!=0){
+                document.documentElement.style.fontSize = width/(rems.clientWidth/width) +"px";
+            }
+        }
+
+        window.onload=function () {
+            regBtn();
+            setTimeout(function () {
+                remAgain()
+            });
+            loadData()
+        }
+    </script>
+</body>
+</html>

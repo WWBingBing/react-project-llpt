@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache"><!--清除缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>薪动</title>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        html{
+            height:100%;
+        }
+        body{
+            padding-top:60%;
+            height: 100%;
+            box-sizing: border-box;
+            font-size: 0;
+        }
+        input{
+            border: 0;
+            outline: none;
+            background: transparent;
+            font-size: 12px;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
+        }
+        .errorMes{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            height: 53px;
+            line-height: 53px;
+            font-size: 14px;
+            background: #fff1f0;
+            border: 1px solid #ffa39e;
+            color: #e4393c;
+            box-sizing: border-box;
+            opacity: 0;
+        }
+        .form{
+            width: 85%;
+            margin: 0 auto;
+            line-height: 1;
+        }
+        .input-m{
+            width: 100% ;
+            padding-right: 127px;
+            box-sizing: border-box;
+            position: relative;
+            margin: 12px 0;
+        }
+        .code-button{
+            width: 98px;
+            height: 45px;
+            background: #769ffe;
+            position:absolute;
+            right: 0;
+            top: 0;
+            border:0;
+            outline:none;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .code-button-active{
+            background: #f7f7f7;
+            color:#ccc;
+            border-color:#d9d9d9;
+        }
+        .input-border{
+            width: 100%;
+            height: 45px;
+            box-sizing: border-box;
+            font-size: 0;
+            border-radius: 20px;
+            background: #fff;
+            padding-left: 50px;
+            position: relative;
+        }
+        .submit{
+            width: 100%;
+            height: 45px;
+            background-image: url("line.png");
+            background-repeat: repeat-y;
+            background-size: 100%;
+            border:0;
+            outline:none;
+            border-radius: 4px;
+            margin-top: 12px;
+            color: #fff;
+        }
+        .bg{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        .icon{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 12px;
+            left: 13px;
+        }
+        .icon1{
+            background: url("spread.png") no-repeat 0 -1px;
+        }
+        .icon2{
+            background: url("spread.png") no-repeat -26px -26px;
+        }
+        .icon3{
+            background: url("spread.png") no-repeat -26px -1px;
+        }
+        .icon4{
+            background: url("spread.png") no-repeat 0 -26px;
+        }
+    </style>
+</head>
+<body onresize="resizeBody()">
+<div class="errorMes"></div>
+<div class="bg"></div>
+<div class="form">
+    <div class="input-border">
+        <span class="icon icon1"></span>
+        <input maxlength="13" id="phone" onkeyup="keyUp(event)" type="text" placeholder="请输入手机号码">
+    </div>
+    <div class="input-m">
+        <div class="input-border">
+            <span class="icon icon3"></span>
+            <input maxlength="6" id="code" type="text" placeholder="请输入验证码">
+        </div>
+        <button onclick="codeBtn()" class="code-button">获取验证码</button>
+    </div>
+    <div class="input-border">
+        <span class="icon icon4"></span>
+        <input maxlength="16" id="password" type="password" placeholder="请输入6-16位密码">
+    </div>
+    <button class="submit" onclick="submitBtn()">注册</button>
+</div>
+<script type="text/javascript" src="crypto-new.js"></script>
+<script type="text/javascript">
+//    import {COMPANY} from "../constants/common";
+
+    var errorMes,timer,timer1,codeSec,captchaId,imgData,items={};
+    function ajax(options) {
+        options = options || {};
+        options.type = (options.type || "GET").toUpperCase();
+        options.dataType = options.dataType || "json";
+        //创建 - 非IE6 - 第一步
+        if (window.XMLHttpRequest) {
+            var xhr = new XMLHttpRequest();
+        } else { //IE6及其以下版本浏览器
+            var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.withCredentials = true;
+        //接收 - 第三步
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                var status = xhr.status;
+                if (status >= 200 && status < 300) {
+                    options.success && options.success(xhr.responseText, xhr.responseXML);
+                } else {
+                    options.fail && options.fail(status);
+                }
+            }
+        }
+
+        //连接 和 发送 - 第二步
+        if (options.type == "GET") {
+            xhr.open("GET", options.url, true);
+            xhr.send(null);
+        } else if (options.type == "POST") {
+            xhr.open("POST", options.url, true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(JSON.stringify(options.data));
+        }
+    }
+    //获取验证码
+    var url="https://llpt-api.ballpie.com/llpt/api/v1/";
+    var clock=true;
+    function opacityMes(errorMes) {
+        var mes=document.getElementsByClassName('errorMes')[0];
+        if(clock){
+            clock=false;
+            mes.innerHTML=errorMes;
+            mes.style.opacity="0.8";
+            var op=mes.style.opacity*1;
+            timer=setInterval(function () {
+                if(op<0){
+                    clearInterval(timer);
+                    timer = null;
+                    clock=true;
+                    return
+                }
+                op = op - 0.02*(1.1-op);
+                mes.style.opacity=op;
+            },50);
+        }
+    }
+    //加载信息
+    function getMesData() {
+        var baseMes=location.href.split("?platformPara=")[1];
+        try{
+            if(baseMes){
+                baseMes = baseMes.replace('!', '/').replace('*', '+');
+                baseMes = Base64.decode(baseMes);
+                if(baseMes != null && baseMes != "undefined") {
+                    if(baseMes.indexOf('inviter')>0){
+                        items = JSON.parse(baseMes.toString());
+                    }else{
+                        var bytes  = CryptoJS.AES.decrypt(baseMes.toString(), 'secret key 123');
+                        items = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                    }
+                }
+            }
+        }catch(err) {
+            console.log(err)
+        }
+    }
+    //验证码倒计时
+    function codeTime() {
+        var codeButton=document.getElementsByClassName("code-button")[0];
+        var sec = 60;
+        timer1=setInterval(function () {
+            if(sec<1){
+                sec = null;
+                clearInterval(timer1);
+                codeButton.innerHTML="获取验证码";
+                codeButton.disabled=false;
+                codeButton.classList.remove("code-button-active");
+                return
+            };
+            sec = sec - 1;
+            codeSec=sec;
+            codeButton.innerHTML=codeSec+"秒后重发";
+            codeButton.disabled=true;
+            codeButton.classList.add("code-button-active");
+        },1000);
+
+    }
+    var registDownUrl="https://llpt-bos.ballpie.com/regist/downllpt.html";
+    //点击验证码
+    function codeBtn() {
+        var phoneNo=document.getElementById("phone"),phoneNum=phoneNo.value.replace(/\s+/g,"");
+        if(!(/^1[3|4|5|7|8|9]\d{9}$/.test(phoneNum))){
+            errorMes='请输入正确的手机号';
+            opacityMes(errorMes);
+            return
+        }
+        ajax({
+            url:url+'user/register/check?username='+phoneNum,
+            type: "GET",
+            data:{},
+            dataType: "json",
+            success:function (resData) {
+                if(JSON.parse(resData).status==0){
+                    if(!JSON.parse(resData).data){
+                        ajax({
+                            url:url+'user/register/sendSms?username='+phoneNum,
+                            type: "POST",
+                            data:{},
+                            dataType: "json",
+                            success:function (response) {
+                                var res=JSON.parse(response);
+                                if(res.status == 0) {
+                                    codeTime();
+                                }else{
+                                    opacityMes(res.details);
+                                }
+                            }
+                        })
+                    }else {
+                        window.location.href=registDownUrl+"?_d1="+new Date().getTime();
+                    }
+
+                }else{
+                    opacityMes(res.details);
+                }
+            }
+        });
+
+    }
+    //点击提交按钮
+    function submitBtn() {
+        var phoneNo=document.getElementById("phone"),
+            code=document.getElementById("code"),
+            password=document.getElementById("password");
+        var phoneNum=phoneNo.value.replace(/\s+/g,"");
+        if(!(/^1[3|4|5|7|8|9]\d{9}$/.test(phoneNum))){
+            errorMes='请输入正确的手机号';
+            opacityMes(errorMes);
+            return
+        }
+        if(!code.value){
+            errorMes='请输入正确的验证码';
+            opacityMes(errorMes);
+            return
+        }
+        if(password.value.length<6){
+            errorMes='请输入6到16位密码';
+            opacityMes(errorMes);
+            return
+        }
+        var item = {};
+        item.username = phoneNum;
+        item.nickName = phoneNum;
+        item.password = password.value;
+        item.smsCode = code.value;
+        items.inviter?Object.assign(item,items):item;
+        ajax({
+            url:url+'user/register',
+            type: "POST",
+            data:item,
+            dataType: "json",
+            success:function (response) {
+                var res=JSON.parse(response);
+                if(res.status == 0) {
+                    window.location.href=registDownUrl+"?d1="+new Date().getTime();
+                }else{
+                    opacityMes(res.details);
+                }
+            }
+        })
+    }
+    //处理手机键盘问题
+    function resizeBody() {
+        var bg=document.getElementsByClassName('bg')[0];
+        setTimeout(function () {
+            bg.style.height=(sessionStorage.getItem("screen")?sessionStorage.getItem("screen"):667)+"px";
+        })
+    }
+    //手机号处理
+    function keyUp(e) {
+        var phoneNo=document.getElementById("phone");
+        var phoneNum = phoneNo.value.trim();
+        if (e.keyCode === 8) {
+            phoneNo.value = phoneNum;
+            return;
+        }
+        var len = phoneNum.length;
+        if (len === 3 || len === 8) {
+            phoneNum += ' ';
+            phoneNo.value = phoneNum;
+        }
+    }
+    window.onload=function () {
+        sessionStorage.setItem("screen",document.body.clientHeight);
+        var bg=document.getElementsByClassName('bg')[0],REGIS_IMAGE='https://huajinbao.b0.upaiyun.com/background/tjdr_regis.png';
+        //处理手机键盘问题
+
+        bg.style.backgroundImage="url("+REGIS_IMAGE+"?time="+new Date().getTime()+")";
+        getMesData();
+    }
+</script>
+</body>
+</html>

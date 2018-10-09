@@ -1,0 +1,12 @@
+dev
+
+http://118.31.78.207:8020
+
+let Az="id1234:secret123";
+
+
+
+pro
+
+https://llpt-bos.ballpie.com
+let Az="llptappv1:da0584db6e";

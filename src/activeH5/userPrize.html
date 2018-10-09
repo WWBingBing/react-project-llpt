@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta http-equiv="expires" content="0">
+		<script type="text/javascript">
+			(function() {
+			    //
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+			})()
+		</script>
+		<style type="text/css">
+			html,body,div,ul,li,p,img,span {
+				margin: 0;
+				padding: 0;
+			}
+			ul,ol,li{
+				list-style-type: none;
+				/*font-size: 0;*/
+			}
+			img {
+				border: none;
+				font-size: 0;
+			}
+			html,body {
+				width: 100%;
+				height: 100%;
+				font-family: PingFangSC;
+			}
+			.rems{
+			    width: 1rem;
+			    height: 1px;
+			    z-index: -100;
+			}
+			.wrap{
+				width: 100%;
+				height: 100%;
+				font-size: 0;
+			}
+			.prize{
+				width: 100%;
+				font-size: 0;
+			}
+			.prize-list{
+				width: 3.43rem;
+				height: 0.77rem;
+				margin: 0 0.16rem;
+				border-bottom: 0.01rem solid #F5F5F5;
+				position: relative;
+			}
+			.prize-list img{
+				width: 0.20rem;
+				height: 0.4rem;
+				margin: 0.23rem 0.2rem 0.14rem 0.07rem;
+			}
+			.prize-list-title{
+				display: inline-block;
+				width: 1.83rem;
+				line-height: 0.2rem;
+				font-size: 0.14rem;
+				color: #4A4A4A;
+				position: absolute;
+				top: 0.2rem;
+				left: 0.47rem;				
+			}
+			.prize-list-time{
+				display: inline-block;
+				width: 1.83rem;
+				line-height: 0.17rem;
+				font-size: 0.12rem;
+				color: #9B9B9B;
+				position: absolute;
+				bottom: 0.14rem;
+				left: 0.47rem;
+				
+			}
+			.prize-btn{
+				width: 0.75rem;
+				height: 0.25rem;
+				border-radius: 0.13rem;
+				position: absolute;
+				bottom: 0.23rem;
+				right: 0.16rem;
+			}
+			.prize-btn-img{
+				width: 0.75rem;
+				height: 0.25rem;
+				border-radius: 0.13rem;
+				font-size: 0.12rem;
+				color: white;
+				line-height: 0.25rem;
+				font-weight: 400;
+				text-align: center;
+			}
+			.back0{
+				background: linear-gradient(90deg,#FFD178 0,#F78F6B);
+			}
+			.back1{
+				background: #DBDBDB;
+			}
+			.prize-btn-shadow{
+				width: 0.75rem;
+				height: 0.25rem;
+				border-radius: 0.13rem;
+				background: rgba(0,0,0,0.1);
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			/*没有更多*/
+			.prize-font{
+				width: 100%;
+				line-height: 0.17rem;
+				color: #DBDBDB;
+				font-size: 0.12rem;
+				text-align: center;
+				margin-top: 1.1rem;
+				display: none;
+			}
+			/*空*/
+			.prize-kong{
+				width: 1.25rem;
+				height: 1.63rem;
+				margin: 2.63rem 1.25rem 0;
+				display: none;
+			}
+			.prize-kong img{
+				width: 1.25rem;
+				height: 1.04rem;
+			}
+			.prize-kong p{
+				width: 1.25rem;
+				font-size: 0.14rem;
+				line-height: 0.2rem;
+				margin-top: 0.18rem;
+				text-align: center;
+				color: #DBDBDB;
+				
+			}
+			/*订单详情*/
+			/*弹窗2：确认地址信息*/
+			.wrap-order{
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.5);
+				position: absolute;
+				top: 0;
+				left: 0;
+				font-size: 0.14rem;
+				display: none;
+			}
+			.order-cont{
+				width: 3.18rem;
+				height: 3.36rem;
+				background: white;
+				border-radius: 0.13rem;
+				color: #494949;
+				position: absolute;
+				top: 1rem;
+				left: 0.28rem;
+			}
+			/*标题*/
+			.order-title{
+				width: 100%;
+				line-height: 0.22rem;
+				text-align: center;
+				margin: 0.24rem 0 0.09rem;
+				
+				
+			}
+			/*详细信息*/
+			.order-list{
+				width: 2.80rem;
+				margin: 0 0.19rem 0;
+			}
+			.order-list li{
+				width: 100%;
+				line-height: 0.5rem;
+				border-bottom: 0.02rem solid #EEEEEE;
+				color: #949494;
+			}
+			.order-list li span{
+				color: #494949;
+			}
+			/*按钮*/
+			.btn-true{
+				width: 1.24rem;
+				height: 0.48rem;
+				border-radius: 0.21rem;
+				position: absolute;
+				bottom: 0.21rem;
+				left: 0.97rem;
+			}
+			.btn-true img{
+				width: 100%;
+				height: 100%;
+			}
+			.btn-true-shadow{
+				width: 100%;
+				height: 100%;
+				border-radius: 0.21rem;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.1);
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="rems"></div>
+			<!--中奖列表-->
+			<div class="prize">
+				
+			</div>
+			<div class="prize-font">已经没有更多了～</div>
+			<div class="prize-kong">
+				<img src="images/user-prize-kong.png"/>
+				<p>暂无中奖纪录</p>
+			</div>
+			<div class="wrap-order">
+				<div class="order-cont">
+					<div class="order-title">订单信息</div>
+					<ul class="order-list">
+						<li>收货人：<span class="order-user"></span></li>
+						<li>手机号码：<span class="order-phone"></span></li>
+						<li>详细地址：<span class="order-detail"></span></li>
+					</ul>
+					<!--确认-->
+					<div class="btn-true">
+						<img src="images/user-address-queren.png"/>
+						<div class="btn-true-shadow"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery2.02.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//分割链接
+		var userId;
+		function setMessage() {
+		    try{
+		        var searchUrl=location.href.split("?")[1].split('&');
+		        searchUrl.forEach(function(item){
+			        if("userId"==item.split('=')[0]){
+				        userId=item.split('=')[1];
+				    }
+		        });
+		    }catch(error){
+		        console.log(error)
+		    }
+		}
+		var prizeHtml;
+		function detailLoad () {
+			//截取url
+		    setMessage();
+		    ajax({
+		        url:'activity/userWinList?userId='+userId,
+		        type: "POST",
+		        data:{},
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            if(res.status==0){
+		            	var dataArr=res.data;
+		            	if (dataArr.length>0) {
+							for (var i = 0; i < dataArr.length; i++) {
+			            		var prizeName,prizeTime,prizeState,prizeId,prizeImg;
+			            		//图片链接
+			            		prizeImg=dataArr[i].prizeImg;
+			                	//名称
+			                	prizeName=dataArr[i].prizeName;
+			                	//有效时间
+			                	prizeTime=dataArr[i].prizeTime;
+			                	//状态
+			                	prizeState=dataArr[i].prizeState;
+			                	//奖品id
+			                	id=dataArr[i].prizeId;
+			                	var html;
+			                	if (prizeState==0) {
+			                		prizeHtml+='<div class="prize-list"><img src="'+prizeImg+'" alt="" /><div class="prize-list-title">'+prizeName+'</div><div class="prize-list-time">有效期至<span>'+prizeTime+'</span></div><div class="prize-btn"><div class="prize-btn-img back0" onclick="prizeClick('+id+')">点击领取</div><div class="prize-btn-shadow"></div></div></div>';
+			                	} else if(prizeState==1){
+			                		prizeHtml+='<div class="prize-list"><img src="'+prizeImg+'" alt="" /><div class="prize-list-title">'+prizeName+'</div><div class="prize-list-time">有效期至<span>'+prizeTime+'</span></div><div class="prize-btn"><div class="prize-btn-img back1" onclick="prizeClicked('+id+')">已领取</div><div class="prize-btn-shadow"></div></div></div>';
+			                	}else if(prizeState==2){
+			                		prizeHtml+='<div class="prize-list"><img src="'+prizeImg+'" alt="" /><div class="prize-list-title">'+prizeName+'</div><div class="prize-list-time">有效期至<span>'+prizeTime+'</span></div><div class="prize-btn"><div class="prize-btn-img back1">已失效</div><div class="prize-btn-shadow"></div></div></div>';
+			                	}
+		            		}
+	//		            	prizeHtml +=prizeHtml+html;
+			            	$(".prize")[0].innerHTML=prizeHtml;	
+			            	document.getElementsByClassName("prize-font")[0].style.display="block";
+		            	} else{
+		            		document.getElementsByClassName("prize-kong")[0].style.display="block";
+		            	}
+		            	
+		                
+		            }
+		        }
+		    })	
+		}
+		//未领取的奖品 点击跳转页面
+		function prizeClick (id) {
+			window.location.href="https://llpt-bos.ballpie.com/activeH5/userAddress.html?prizeId="+id+"&userId="+userId;
+		}
+		//已领取的奖品 点击弹出详细地址
+		function prizeClicked (id) {
+			console.log(id);
+			//截取url
+		    setMessage();
+		    ajax({
+		        url:'activity/prizeInfo?userId='+userId+'&prizeId='+id,
+		        type: "POST",
+		        data:{},
+		        dataType: "json",
+		        success:function (response) {
+		            var res=JSON.parse(response);
+		            if(res.status==0){
+		            	var prizeName,prizePhone,prizeAddress;
+		            	prizeName=res.data.prizeName;
+		            	prizePhone=res.data.prizePhone;
+		            	prizeAddress=res.data.prizeAddress;
+		            	document.getElementsByClassName("order-user")[0].innerText=prizeName;
+		            	document.getElementsByClassName("order-phone")[0].innerText=prizePhone;
+		            	document.getElementsByClassName("order-detail")[0].innerText=prizeAddress;
+		            	document.getElementsByClassName("wrap-order")[0].style.display="block";
+		            	
+		            	document.getElementsByClassName("btn-true")[0].onclick=function () {
+		            		document.getElementsByClassName("wrap-order")[0].style.display="none";
+		            	}
+		            }
+		        }
+		    })
+		}
+		//计算rem  (兼容识别rem不准问题)
+		function remAgain() {
+			var width = window.innerWidth / 375 * 100;
+			document.documentElement.style.fontSize = width + "px";
+			var rems = document.getElementsByClassName("rems")[0];
+			if(rems.clientWidth != width && window.innerWidth != 0) {
+				document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+			}
+		}
+		//html加载结束后就开始执行
+		$(document).ready(function () {
+			detailLoad ();
+			
+		})
+		window.onload = function () {
+			setTimeout(function () {
+				remAgain();
+			},0)
+		}
+	</script>
+</html>

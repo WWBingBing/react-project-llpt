@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>房贷计算器</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result h2{
+            font-size: 0.36rem;
+            line-height: 0.5rem;
+        }
+        .result h3{
+            color: #4A4A4A;
+            font-size: 0.24rem;
+            line-height: 0.32rem;
+        }
+        .allPriceLine{
+            width: 100%;
+            height: 1px;
+            background: #ccc;
+            margin: 12px 0;
+        }
+        .left,.right{
+            width: 50%;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+        }
+        .right:after{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            top: -12px;
+            bottom: -0.15rem;
+            width: 1px;
+            background: #ccc;
+        }
+        .debj{
+            font-size: 0.24rem;
+            padding: 10px 0;
+            display: none;
+        }
+        .computed{
+            margin-top: 1.35rem;
+        }
+        .submitBtnS{
+            margin: 0.3rem 0;
+        }
+        .headerListOuter{
+            width: 3.46rem;
+            margin: 1.35rem auto 0;
+            font-size: 12px;
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+            display: none;
+            line-height: 0.4rem;
+        }
+        .headerList{
+            background: #F0EFF6;
+        }
+        .monthNum{
+            float: left;
+            width: 30%;
+        }
+        ul{
+            max-height: 3rem;
+            overflow-y: auto;
+        }
+        ul .PriceList{
+            background: #fff;
+            position: relative;
+        }
+        ul .PriceList:after{
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #F0EFF6;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <div class="debx">
+                <p class="resultP">月均还款(元)</p>
+                <h2 class="allPrice">0.00</h2>
+            </div>
+            <div class="debj" onclick="backComputed()">
+                <span> < </span>
+                <span>月还金额</span>
+            </div>
+            <div class="allPriceLine"></div>
+            <div>
+                <div class="left">
+                    <p>支付利息(元)</p>
+                    <h3 class="allPrice">0.00</h3>
+                </div>
+                <div class="right">
+                    <p>还款总额(元)</p>
+                    <h3 class="allPrice">0.00</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="computed">
+        <div class="list">
+            <span>贷款总额</span>
+            <input class="priceInput" placeholder="请输入总额"  maxlength="9" type="text">
+            <span class="unit">元</span>
+        </div>
+        <div class="list">
+            <span>按揭年数</span>
+            <input class="priceInput" placeholder="请输入年数"  maxlength="9" type="text">
+            <span class="unit">年</span>
+        </div>
+        <div class="list">
+            <span>还款方式</span>
+            <div class="selectOuter">
+                <div class="selectDiv">等额本息还款</div>
+                <select class="selectOptions" onchange="change(this)">
+                    <option value="0">等额本息还款</option>
+                    <option value="1">等额本金还款</option>
+                </select>
+            </div>
+            <span class="unit"> > </span>
+        </div>
+        <div class="list last">
+            <span>贷款年利率</span>
+            <input class="priceInput" placeholder="请输入利率"  maxlength="9" type="text">
+            <span class="unit">%</span>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+    <div class="headerListOuter">
+        <div class="headerList">
+            <div class="monthNum">月份</div>
+            <div class="monthPrice">月供金额</div>
+        </div>
+        <ul class="ulLists"></ul>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var computed = getClassName("computed")[0],
+        resultP = getClassName("resultP")[0],
+        allPriceLine = getClassName("allPriceLine")[0],
+        debj = getClassName("debj")[0],
+        allPrice0 = getClassName("allPrice")[0],
+        allPrice1 = getClassName("allPrice")[1],
+        allPrice2 = getClassName("allPrice")[2],
+        priceInput0 = getClassName("priceInput")[0],
+        priceInput1 = getClassName("priceInput")[1],
+        priceInput2 = getClassName("priceInput")[2],
+        selectOptions = getClassName("selectOptions")[0],
+        selectDiv = getClassName("selectDiv")[0],
+        ulLists = getClassName("ulLists")[0],
+        headerListOuter = getClassName("headerListOuter")[0],
+        ulHtml="";
+    //等额本息还款计算公式
+    function estateBorrow(original,active,timeSpan){
+        var monthBack=Format(original*active*0.001*Math.pow((1+parseFloat(active*0.001)),parseFloat(timeSpan))/(Math.pow((1+parseFloat(active*0.001)),parseFloat(timeSpan))-1));
+        var totalBack=Format(monthBack*timeSpan);
+        var totalInterest=Format(totalBack-original);
+        var monthInterest=Format(totalInterest/timeSpan);
+        var objArray=new Array();
+        objArray[0]=monthBack;
+        objArray[1]=totalBack;
+        objArray[2]=monthInterest;
+        objArray[3]=totalInterest;
+        return objArray;
+    }
+    //等额本金还款计算公式
+    function estateBorrow1(original,active,timeSpan){
+        active = active*0.001;
+        var monthOriginal = original / timeSpan;
+        var timeSpan1=parseInt(timeSpan);
+        var interestTotal=0;
+        var backMonth = [];
+        for(var i=1;i<timeSpan1+1;i++){
+            interestM=(original-original*(i-1)/timeSpan1)*active;
+            backMonth.push("¥"+(monthOriginal + interestM).toFixed(2)+"元");
+            interestTotal=Format(parseFloat(interestTotal)+parseFloat(interestM));
+        }
+        var monthBack=original*active*Math.pow((1+parseFloat(active)),parseFloat(timeSpan))/(Math.pow((1+parseFloat(active)),parseFloat(timeSpan))-1);
+        var moneyTotal=parseFloat(original)+parseFloat(interestTotal);
+        var objArray=new Array();
+        objArray[0]=interestTotal;
+        objArray[1]=moneyTotal;
+        objArray[2] = backMonth;
+        return objArray;
+    }
+    function showView(type) {
+        var classArray=["debx","computed","submitBtnS"];
+        debj.style.display = type?"block":"none";
+        headerListOuter.style.display = type?"block":"none";
+        for(var i=0;i<classArray.length;i++){
+            getClassName(classArray[i])[0].style.display= !type?"block":"none";
+        };
+    }
+    function change(e) {
+        selectDiv.innerText= e.value==0 ? "等额本息还款" : "等额本金还款";
+    }
+    function subBtn() {
+        var allPriceValue0=priceInput0.value,//总额
+            allPriceValue1=priceInput1.value,//年数
+            allPriceValue2=priceInput2.value;//利息
+        var timeSpan = parseFloat(allPriceValue1) * 12;
+            allPriceValue2 = allPriceValue2 * 10 / 12;
+        if(selectOptions.value==0){
+            var result = estateBorrow(allPriceValue0,allPriceValue2,timeSpan);
+            allPrice0.innerText=result[0];
+            allPrice1.innerText=result[3];
+            allPrice2.innerText=result[1];
+        }else{
+            showView(true);
+            var result = estateBorrow1(allPriceValue0, allPriceValue2, timeSpan);
+            allPrice1.innerText=result[0];
+            allPrice2.innerText=result[1];
+            for(var j=0;j<result[2].length;j++){
+                ulHtml+="<li class='PriceList'>" +
+                        "<div class='monthNum'>"+(j+1)+"月</div>" +
+                        "<div class='monthPrice'>"+result[2][j]+"</div>" +
+                    "</li>"
+            }
+            ulLists.innerHTML=ulHtml;
+        }
+    }
+    function reset() {
+        allPrice0.innerText="0.00";
+        allPrice1.innerText="0.00";
+        allPrice2.innerText="0.00";
+        priceInput0.value = "";
+        priceInput1.value = "";
+        priceInput2.value = "";
+        selectOptions.selectedIndex=0;
+        selectDiv.innerText="等额本息还款";
+    }
+    function submitMes(type) {
+        if(type=="submit"){
+            if(!CheckElem(priceInput0,"贷款总额")) return false;
+            if(!CheckElem2(priceInput1,"按揭年数")) return false;
+            if(!CheckElem(priceInput2,"贷款年利率")) return false;
+            subBtn()
+        }else{
+            reset()
+        }
+    }
+    function backComputed() {
+        showView(false);
+        allPrice0.innerText="0.00";
+        allPrice1.innerText="0.00";
+        allPrice2.innerText="0.00";
+        ulHtml="";
+    }
+</script>
+</body>
+</html>

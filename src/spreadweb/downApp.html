@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<script type="text/javascript">
+			(function() {
+			    //
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+			})()
+		</script>
+		<style type="text/css">
+			html,body,div,ul,li,p,img,span {
+				margin: 0;
+				padding: 0;
+			}
+			ul,ol,li{
+				list-style-type: none;
+				/*font-size: 0;*/
+			}
+			img {
+				border: none;
+				font-size: 0;
+			}
+			html,body {
+				width: 100%;
+				height: 100%;
+				font-family: PingFangSC;
+			}
+			.rems{
+			    width: 1rem;
+			    height: 1px;
+			    z-index: -100;
+			}
+			.wrap{
+				width: 100%;
+				height: 100%;
+			}
+			#preloader_1{
+			    position:relative;
+			    width: 1rem;
+			    height: 1rem;
+			    top: 1.7rem;
+			    left: 1.6rem;
+			}
+			#preloader_1 span{
+			    display:block;
+			    bottom:0px;
+			    width: 0.09rem;
+			    height: 0.30rem;
+			    background:#9b59b6;
+			    position:absolute;
+			    animation: preloader_1 1.5s  infinite ease-in-out;
+			}  
+			#preloader_1 span:nth-child(2){
+			    left:0.11rem;
+			    animation-delay: .2s;  
+			}
+			#preloader_1 span:nth-child(3){
+			    left:0.22rem;
+			    animation-delay: .4s;
+			}
+			#preloader_1 span:nth-child(4){
+			    left:0.33rem;
+			    animation-delay: .6s;
+			}
+			#preloader_1 span:nth-child(5){
+			    left:0.44rem;
+			    animation-delay: .8s;
+			}
+			@keyframes preloader_1 {
+			    0% {height:0.10rem;transform:translateY(0rem);background:#9b59b6;}
+			    25% {height:0.60rem;transform:translateY(0.3rem);background:#3498db;}
+			    50% {height:0.1rem;transform:translateY(0rem);background:#9b59b6;}
+			    100% {height:0.1rem;transform:translateY(0rem);background:#9b59b6;}
+			}
+			.font{
+				width: 100%;
+				font-size: 0.25rem;
+				position: absolute;
+				top: 3rem;
+				text-align: center;
+			}
+			.tips{
+				width: 100%;
+				background: rgba(0,0,0,0.3);
+				display: none;	
+			}
+			.tips img{
+				width: 100%;
+				height: 1.2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="tips">
+			<div class="rems"></div>
+			<img src="../newH5/images/wxmes.png"/>
+		</div>
+		<div class="wrap">
+			<div class="rems"></div>
+			<div id="preloader_1">
+			    <span></span>
+			    <span></span>
+			    <span></span>
+			    <span></span>
+			    <span></span>
+			</div>
+			<div class="font">
+				薪动App下载中...
+			</div>
+		</div>
+		<script src="ajax.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//计算rem  (兼容识别rem不准问题)
+			function remAgain() {
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+				var rems = document.getElementsByClassName("rems")[0];
+				if(rems.clientWidth != width && window.innerWidth != 0) {
+					document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+				}
+			}
+			//安卓下载打点
+			function androidDownload () {
+				ajax({
+			        url:'activity/soune/click?source=2&clientType=android',
+			        type: "POST",
+			        data:{},
+			        dataType: "json",
+			        success:function (response) {
+			            var res=JSON.parse(response);
+			            if(res.status==0){
+			                
+			            }
+			        }
+			    })
+			}
+			//ios下载打点
+			function iosDownload () {
+				ajax({
+			        url:'activity/soune/click?source=2&clientType=ios',
+			        type: "POST",
+			        data:{},
+			        dataType: "json",
+			        success:function (response) {
+			            var res=JSON.parse(response);
+			            if(res.status==0){
+			                
+			            }
+			        }
+			    })
+			}
+			window.onload = function () {
+				setTimeout(function () {
+					remAgain();
+				},0)
+			}
+		</script>
+		<script type="text/javascript">
+			var ua = navigator.userAgent.toLowerCase();
+			var isWeixin = ua.indexOf('micromessenger') != -1;
+			if (isWeixin) {
+				var u = navigator.userAgent;
+			    var isAndroid = u.indexOf('Android') > -1 ;
+			    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			    if(isiOS){
+			    	//ios打点
+			    	iosDownload ();
+			        window.location.href="https://llpt-bos.ballpie.com/ios/html/index.html"
+			    }else{
+			    	document.getElementsByClassName("tips")[0].style.display="block";
+					document.getElementsByClassName("font")[0].innerText="请在浏览器中下载"
+			    }
+			}else{
+				downLoad();
+			}
+			
+			function downLoad(){
+				var u = navigator.userAgent;
+			    var isAndroid = u.indexOf('Android') > -1 ;
+			    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			    if(isAndroid){
+			    	androidDownload ();
+			    	window.location.href="http://apkdown-1254400142.cossh.myqcloud.com/taojindaren/xindong.apk";
+			    }
+			    if(isiOS){
+			    	iosDownload ();
+			        window.location.href="https://llpt-bos.ballpie.com/ios/html/index.html"
+			    }
+			}
+		</script>
+	</body>
+</html>

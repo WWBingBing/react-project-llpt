@@ -1,0 +1,19 @@
+.git
+.classpath
+.project
+.settings
+node_modules
+.idea
+.iml
+*.iml
+target/
+npm-debug.log
+build
+dist
+<<<<<<< HEAD
+yarn.lock
+yarn-error.log
+=======
+yarn-error.log
+yarn.lock
+>>>>>>> qyk

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache"><!--清除缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>薪动</title>
+    <script type="text/javascript">
+    	(function() {
+			    //
+				var width = window.innerWidth / 375 * 100;
+				document.documentElement.style.fontSize = width + "px";
+		})()
+    </script>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        li{
+            list-style: none;
+        }
+        html{
+            height: 100%;
+        }
+        body{
+            padding-top:60%;
+            height: 100%;
+            box-sizing: border-box;
+            font-size: 0;
+            background: #765AE3;
+        }
+        .promptMes{
+            background-color: #ccc;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            
+        }
+        .promptMes-img{
+            width: 100%;
+        }
+        .down-bg{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            background-image: url("down.png");
+            background-position: 0rem 0rem;
+            background-size:  100% ;
+            
+        }
+        .down-content{
+            width: 90%;
+            margin: 0 auto;
+            z-index: 100;
+        }
+       	.androidDown{
+       		width: 3.37rem;
+            height: 0.50rem;
+            color: #421E02;
+            background: linear-gradient(180deg,#FFE65D 0,#F3B300);
+            border-radius: 0.32rem;
+            line-height: 0.50rem;
+            text-align: center;
+            position: absolute;
+            bottom: 0.4rem;
+        }
+        span{
+            display: inline-block;
+            font-size: 0.18rem;
+            vertical-align: middle;
+            
+        }
+        
+        .rems{
+			width: 1rem;
+			height: 1px;
+			z-index: -100;
+		}
+		.tan{
+			width: 2.81rem;
+			padding: 0.1rem;
+			border-radius: 0.1rem;
+			background: white;
+			position: absolute;
+			top: 2rem;
+			left: 0.37rem;
+			font-size: 0.16rem;
+			line-height: 0.25rem;
+			display: none;
+		}
+		.tan-time{
+			font-size: 0.16rem;
+			line-height: 0.25rem;
+			color: lightcoral;
+		}
+    </style>
+</head>
+<body>
+	<div class="rems"></div>
+    <div class="promptMes">
+        <img class="promptMes-img" src="wxmes.png">
+    </div>
+    <div class="down-bg"></div>
+    <div class="down-content">
+        
+        <div class="androidDown" onclick="downAndroid()">
+            <span>薪动App下载</span>
+        </div>
+    </div>
+    <div class="tan">
+    	<div class="rems"></div>
+    	暂不支持微信内下载，请点击右上角，在浏览器中打开。<span class="tan-time"></span>
+    </div>
+    <script src="ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    	//安卓下载打点
+			function androidDownload () {
+				ajax({
+			        url:'activity/soune/click?source=3&clientType=android',
+			        type: "POST",
+			        data:{},
+			        dataType: "json",
+			        success:function (response) {
+			            var res=JSON.parse(response);
+			            if(res.status==0){
+			                
+			            }
+			        }
+			    })
+			}
+			//ios下载打点
+			function iosDownload () {
+				ajax({
+			        url:'activity/soune/click?source=3&clientType=ios',
+			        type: "POST",
+			        data:{},
+			        dataType: "json",
+			        success:function (response) {
+			            var res=JSON.parse(response);
+			            if(res.status==0){
+			                
+			            }
+			        }
+			    })
+			}
+		var timer;	
+        function downAndroid() {
+        	clearInterval(timer);
+        	var ua = navigator.userAgent.toLowerCase();
+			var isWeixin = ua.indexOf('micromessenger') != -1;
+			if (isWeixin) {
+				var u = navigator.userAgent;
+			    var isAndroid = u.indexOf('Android') > -1 ;
+			    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+				if(isiOS){
+			    	iosDownload ();
+			        window.location.href="https://llpt-bos.ballpie.com/ios/html/index.html"
+			    }else{
+			    	document.getElementsByClassName("tan")[0].style.display="block";
+					var time = 5;
+					var tanTime = document.getElementsByClassName("tan-time")[0];
+					tanTime.innerText= "("+time+"s后提示消失)";
+					timer = setInterval(function () {
+						time--;
+						tanTime.innerText= "("+time+"s后提示消失)";
+						if(time<1){
+							document.getElementsByClassName("tan")[0].style.display="none";
+							clearInterval(timer);
+							
+						}
+					},1000)
+			  	}
+			}else{
+				var u = navigator.userAgent;
+			    var isAndroid = u.indexOf('Android') > -1 ;
+			    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			    if(isAndroid){
+			    	androidDownload ();
+			    	window.location.href="http://apkdown-1254400142.cossh.myqcloud.com/taojindaren/xindong.apk";
+			    }
+			    if(isiOS){
+			    	iosDownload ();
+			        window.location.href="https://llpt-bos.ballpie.com/ios/html/index.html"
+			    }
+			}
+        	
+        	
+           
+        }
+		
+    </script>
+    <script type="text/javascript">
+		//计算rem  (兼容识别rem不准问题)
+		function remAgain() {
+			var width = window.innerWidth / 375 * 100;
+			document.documentElement.style.fontSize = width + "px";
+			var rems = document.getElementsByClassName("rems")[0];
+			if(rems.clientWidth != width && window.innerWidth != 0) {
+				document.documentElement.style.fontSize = width / (rems.clientWidth / width) + "px";
+			}
+		}
+		//html加载结束后就开始执行
+		window.onload=function () {
+			setTimeout(function () {
+				remAgain();
+			},0)
+			
+		}
+	</script>
+</body>
+</html>

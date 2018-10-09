@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>股票市盈率</title>
+    <script type="text/javascript">
+        (function () {
+            var width = window.innerWidth/375*100;
+            document.documentElement.style.fontSize = width +"px";
+        })()
+    </script>
+    <style>
+        .result h2{
+            font-size: 0.36rem;
+            line-height: 0.5rem;
+        }
+        .computed{
+            margin-top: 0.64rem;
+        }
+        .submitBtnS{
+            margin-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="errorMes"></div>
+<div class="page">
+    <div class="title">
+        <div class="result">
+            <p>股票市盈率</p>
+            <h2 class="allPrice">0.00</h2>
+        </div>
+    </div>
+    <div class="computed">
+        <div class="list">
+            <span>股票价格</span>
+            <input class="priceInput" maxlength="15" type="text" placeholder="请输入金额">
+            <span class="unit">元</span>
+        </div>
+        <div class="list last">
+            <span>企业每股税后利润</span>
+            <input class="profitInput"  maxlength="15" type="text" placeholder="请输入金额">
+            <span class="unit">元</span>
+        </div>
+    </div>
+    <div class="submitBtnS">
+        <button class="submitBtn" onclick="submitMes('submit')">开始计算</button>
+        <button class="submitBtn resetBtn" onclick="submitMes('reset')">重新计算</button>
+    </div>
+</div>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+    var priceS,
+        allPrice=document.getElementsByClassName("allPrice")[0],
+        priceInput=document.getElementsByClassName("priceInput")[0],
+        profitInput=document.getElementsByClassName("profitInput")[0];
+    function resetForm() {
+        profitInput.value="";
+        priceInput.value="";
+        allPrice.innerHTML="0.00";
+    }
+    function submitMes(type) {
+        if(type=='submit'){
+            if(!CheckElem(priceInput,"股票价格")) return false;
+            if(!CheckElem(profitInput,"企业每股税后利润")) return false;
+            priceS = parseFloat(priceInput.value)/parseFloat(profitInput.value);
+            allPrice.innerHTML=Format(priceS);
+        }else{
+            resetForm()
+        }
+    }
+</script>
+</body>
+</html>

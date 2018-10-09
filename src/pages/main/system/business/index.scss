@@ -1,0 +1,41 @@
+.listModal{
+  padding-bottom: 8px;
+  h3{
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 18px;
+    line-height: 1;
+  }
+  ul{
+    padding-left: 16px;
+  }
+  li{
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    .integral{
+      width: 80px;
+      text-align: right;
+    }
+    .imgIco{
+      width: 38px;
+      height: 38px;
+    }
+    div{
+      flex: 1;
+      line-height: 38px;
+      text-align: center;
+      >span{
+        font-size: 12px;
+        line-height: 12px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      >img{
+        display: inline-block;
+      }
+    }
+  }
+}
